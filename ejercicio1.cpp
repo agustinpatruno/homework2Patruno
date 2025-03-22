@@ -16,13 +16,14 @@ void programa_verificacion()
         cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
         cin >> opcion ;
 
+        int subopcion = 0;
+
         if (opcion == -1)
         {
             return;
         }
         else if (opcion == 1)
         {
-            int subopcion = 0;
             cout << setw(10) << "que quieres modificar:" << endl;
             cout << setfill('-') << setw(10) << "1) la hora " << endl;
             cout << setfill('-') << setw(10) << "2) los minutos" << endl;
@@ -101,5 +102,10 @@ void programa_verificacion()
 
             }
         }
+        else if (opcion == 2)
+        {
+            
+        }
+        
     }
 }
