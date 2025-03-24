@@ -1,6 +1,5 @@
 #include "ejercicio1.hpp"
 
-
 void programa_verificacion()
 {
 
@@ -154,6 +153,19 @@ void programa_verificacion()
 
 int main()
 {
+    tiempo tiempo1(10);
+    tiempo1.leer_todo();
+
+    tiempo tiempo2(10,22);
+    tiempo2.leer_todo();
+
+    tiempo tiempo3(10,22,53);
+    tiempo3.leer_todo();
+
+    tiempo tiempo4(10,22,53,"a.m");
+    tiempo4.leer_todo();
+
     programa_verificacion();
+    
     return 0;
 }
