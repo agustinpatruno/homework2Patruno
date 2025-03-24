@@ -35,28 +35,28 @@ class tiempo
             Hora = 0;
             Minutos = 0;
             Segundos = 0;
-            Momento = 'a.m';
+            Momento = "a.m";
         }
         tiempo(int horas)
         {
             Hora = comprobar_hora(horas);
             Minutos = 0;
             Segundos = 0;
-            Momento = 'a.m';
+            Momento = "a.m";
         }
         tiempo(int horas, int minutos)
         {
             Hora = comprobar_hora(horas);
             Minutos = comprobar_minutos_segundos(minutos);
             Segundos = 0;
-            Momento = 'a.m';
+            Momento = "a.m";
         }
         tiempo(int horas, int minutos, int segundos)
         {
             Hora = comprobar_hora(horas);
             Minutos = comprobar_minutos_segundos(minutos);
             Segundos = comprobar_minutos_segundos(segundos);
-            Momento = 'a.m';
+            Momento = "a.m";
         }
         tiempo(int horas, int minutos, int segundos, string momento)
         {
@@ -87,7 +87,7 @@ class tiempo
         }
         void cambiar_minutos(int nuevos_minutos)
         {
-            int min_ant = Segundos;
+            int min_ant = Minutos;
             Minutos = comprobar_minutos_segundos(nuevos_minutos) == 0 ? min_ant : nuevos_minutos;
             return;
         }
@@ -99,8 +99,8 @@ class tiempo
         }
         void cambiar_segundos(int nuevos_segundos)
         {   
-            int seg_ant = Minutos;
-            Minutos = comprobar_minutos_segundos(nuevos_segundos) == 0 ? seg_ant : nuevos_segundos;
+            int seg_ant = Segundos;
+            Segundos = comprobar_minutos_segundos(nuevos_segundos) == 0 ? seg_ant : nuevos_segundos;
             return;
         }
 
@@ -125,8 +125,8 @@ class tiempo
 
         void mostrar_tiempo_formato_24()
         {
-            int hora = Momento == "p.m" ? hora + 12 : hora ;
-            cout << setw(10) <<"hora: " << hora << " minutos: " << Minutos << " segundos: " << Segundos << endl ;
+            int hora_convertida = Momento == "p.m" ? Hora + 12 : Hora ;
+            cout << setw(10) <<"hora: " << hora_convertida << " minutos: " << Minutos << " segundos: " << Segundos << endl ;
             return;
         }
 };
