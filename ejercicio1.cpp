@@ -1,13 +1,26 @@
 #include "ejercicio1.hpp"
 
+
+void opciones()
+{
+    cout << setfill('-') << setw(10) << "1) la hora " << endl;
+    cout << setfill('-') << setw(10) << "2) los minutos" << endl;
+    cout << setfill('-') << setw(10) << "3) los segundos" << endl;
+    cout << setfill('-') << setw(10) << "4) el momento" << endl;
+    
+    return;
+}
+
+
 void programa_verificacion()
 {
 
     tiempo tiempo_actual;
 
-    while ( true)
+    while (true)
     {
-        int opcion = 0 ;
+        int opcion = 0;
+
         cout << setw(10) << "que quieres hacer :" << endl;
         cout << setfill('-') << setw(5) << "1) cambiar el tiempo" << endl ;
         cout << setfill('-') << setw(5) << "2) leer el tiempo" << endl ;
@@ -17,6 +30,148 @@ void programa_verificacion()
 
         int subopcion = 0;
 
+        int nuevo_tiempo = 0;
+
+        string nuevo_momento;
+
+        switch (opcion)
+        {
+            case -1:
+            {
+                return;
+            }
+            case 1:
+            {
+                cout << setw(10) << "que quieres modificar:" << endl;
+                opciones();
+                cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
+
+                cin >> subopcion ;
+                
+                switch (subopcion)
+                {
+                    case -1:
+                    {   
+                        return;
+                    }
+                    case 1:
+                    { 
+                        cout << setw(10) << "ingrese la nueva hora :" << endl;
+                        cin >> nuevo_tiempo;
+        
+                        while (nuevo_tiempo > 12 || nuevo_tiempo < 0)
+                        {
+                            cout << setw(10) << "error, ingrese una hora valida :" << endl;
+                            cin >> nuevo_tiempo ;
+                        }
+
+                        tiempo_actual.cambiar_hora(nuevo_tiempo);
+                        break;
+                    }
+                    case 2:
+                    {
+                        cout << setw(10) << "ingrese los nuevos minutos/segundos :" << endl;
+                        cin >> nuevo_tiempo;
+            
+                        while (nuevo_tiempo > 60 || nuevo_tiempo < 0)
+                        {
+                            cout << setw(10) << "error, ingrese unos minutos/segundos validos :" << endl;
+                            cin >> nuevo_tiempo ;
+                        }
+            
+                        tiempo_actual.cambiar_minutos(nuevo_tiempo);
+                        break;
+                    }
+                    case 3:
+                    {
+                        cout << setw(10) << "ingrese los nuevos minutos/segundos :" << endl;
+                        cin >> nuevo_tiempo;
+            
+                        while (nuevo_tiempo > 60 || nuevo_tiempo < 0)
+                        {
+                            cout << setw(10) << "error, ingrese unos minutos/segundos validos :" << endl;
+                            cin >> nuevo_tiempo ;
+                        }
+                        tiempo_actual.cambiar_segundos(nuevo_tiempo);
+                        break;
+                    }
+                    case 4:
+                    {
+                        cout << setw(10) << "ingrese a.m o p.m :" << endl;
+                        cin >> nuevo_momento;
+
+                        while (nuevo_momento != "p.m" && nuevo_momento != "a.m")
+                        {
+                            cout << setw(10) << "error, ingrese un momento valido :" << endl;
+                            cin >> nuevo_momento ;
+                        }
+                        
+                        tiempo_actual.cambiar_momento(nuevo_momento);
+                        break;
+                    }
+                    default:
+                    {
+                        cout << "error, opcion no valida, intentelo nuevamente" << endl;
+                        break;
+                    }
+                }
+            }
+            case 2:
+
+                cout << setw(10) << "que quieres leer:" << endl;
+                opciones();
+                cout << setfill('-') << setw(10) << "5) todo en conjunto" << endl;
+                cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
+
+                cin >> subopcion ;
+
+                switch (subopcion)
+                {
+                    case -1:
+                    {
+                        return;
+                    }    
+                    case 1:
+                    {
+                        tiempo_actual.leer_hora();
+                        break;
+                    }
+                    case 2:
+                    {
+                        tiempo_actual.leer_minutos();
+                        break;
+                    }
+                    case 3:
+                    {
+                        tiempo_actual.leer_segundos();
+                        break;
+                    }
+                    case 4:
+                    {
+                        tiempo_actual.leer_momento();
+                        break;
+                    }
+                    default:
+                    {
+                        cout << "error, ingrese una opcion valida:" << endl;
+
+                        break;
+                    }
+                }
+    
+            case 3:
+            {
+                tiempo_actual.mostrar_tiempo_formato_24();
+                break;
+            }
+            default:
+            {
+                cout << "error, ingrese una opcion valida " << endl;
+                break;
+            }
+        }
+
+        /*
         if (opcion == -1)
         {
             return;
@@ -147,7 +302,8 @@ void programa_verificacion()
         else
         {
             cout << "error, numero ingresado no valido" << endl ;
-        }
+        }*/
+
     }
 }
 

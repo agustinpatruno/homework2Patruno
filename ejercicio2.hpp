@@ -5,7 +5,6 @@
 #include <algorithm>
 using namespace std;
 
-
 const static int capacidad_alumnos = 20;
 
 class  estudiante
@@ -182,5 +181,3 @@ class curso
 
 };
 curso::~curso(){}
-
-
