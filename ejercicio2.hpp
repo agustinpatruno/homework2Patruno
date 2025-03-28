@@ -15,7 +15,7 @@ class  estudiante
 
         int legajo;
 
-       vector<int> notas;
+       vector<double> notas;
 
     public:
         // constructores //
