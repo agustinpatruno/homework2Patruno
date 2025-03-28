@@ -167,15 +167,11 @@ class curso
         {
             return estudiantes.size() == 20;
         }
-        /*
-            retorna true si el curso esta completo. caso contrario retorna false.
-        */
+       
 
         // imprimir lista de nombres por orden alfabetico
 
         void imprimir_nombres();
-        /*
-            imprime por consola los nombres de los estudiantes pertenecientes al curso
-        */
+       
 
 };

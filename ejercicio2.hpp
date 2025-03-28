@@ -100,10 +100,15 @@ class curso
         //imformar curso completo
 
         bool curso_completo();
-        
+        /*
+            retorna true si el curso esta completo. caso contrario retorna false.
+        */
 
         // imprimir lista de nombres por orden alfabetico
 
         void imprimir_nombres();
+        /*
+            imprime por consola los nombres de los estudiantes pertenecientes al curso
+        */
 
 };
