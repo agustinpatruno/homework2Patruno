@@ -20,72 +20,30 @@ class  estudiante
     public:
         // constructores //
 
-        estudiante()
-        {
-            nombre_completo = "sin nombre asignado";
-            legajo = 0;
-            notas.push_back(0);
-        }
-        estudiante(string nombre)
-        {
-            nombre_completo = nombre;
-            legajo = 0;
-            notas.push_back(0);
-        }
-        estudiante(string nombre, int numero_legajo)
-        {
-            nombre_completo = nombre;
-            legajo = numero_legajo;
-        }
-        estudiante(string nombre, int numero_legajo, int nota_incial)
-        {
-            nombre_completo = nombre;
-            legajo = numero_legajo;
-            notas.push_back(nota_incial);
-        }
+        estudiante();
+
+        estudiante(string nombre);
+
+        estudiante(string nombre, int numero_legajo);
+
+        estudiante(string nombre, int numero_legajo, int nota_incial);
+
 
         //funciones de ingreso y visualisacion de datos//
 
-        void agregar_nota(int numero_nota)
-        {
-            notas.push_back(numero_nota);
-        }
-        void cambiar_nombre(string nombre)
-        {
-            nombre_completo = nombre;
-        }
-        void cambiar_legajo(int numero_legajo)
-        {
-            legajo = numero_legajo;
-        }
+        void agregar_nota(int numero_nota);
 
-        void imprimir_nombre()
-        {
-            cout <<"nombre completo: " << nombre_completo << endl ;
-        }
-        int imprimir_legajo()
-        {   
-            cout << "numero de legajo: " << legajo << endl ;
-            return legajo;
-        }
-        int imprimir_promedio()
-        {
-            int promedio = 0;
+        void cambiar_nombre(string nombre);
 
-            for (int i = 0; i < notas.size(); i++)
-            {
-                promedio += notas[i]; 
-            }
-            cout << "promedio general :" << promedio/notas.size() << endl;
+        void cambiar_legajo(int numero_legajo);
 
-            return promedio;
-        }
-        void imprimir_todo()
-        {
-            imprimir_nombre();
-            imprimir_legajo();
-            imprimir_promedio();
-        }
+        void imprimir_nombre();
+
+        int imprimir_legajo();
+
+        int imprimir_promedio();
+
+        void imprimir_todo();
 };
 
 
@@ -96,88 +54,56 @@ class curso
         vector<shared_ptr<estudiante>> estudiantes;
 
     public:
-        void inicializacion_curso() {
-            cout << "Curso creado!" << endl;
-        }
+        void inicializacion_curso();
+        /*
+            muestra un mensaje por consola de que se creo bien el objeto
+        */
 
         //inscribir estudiante al curso//
 
-        void inscribir_estudiante(string nombre)
-        {
-            if (estudiantes.size()<20)
-            {
-                shared_ptr<estudiante> nuevo_estudiante = make_shared<estudiante>(nombre);
-                estudiantes.push_back(nuevo_estudiante);
-                return;
-            }
-            cout << "error, no entran mas estudiantes" << endl;
-            
-        }
-        void inscribir_estudiante(string nombre, int legajo)
-        {
-            if (estudiantes.size()<20)
-            {
-                shared_ptr<estudiante> nuevo_estudiante = make_shared<estudiante>(nombre,legajo);
-                estudiantes.push_back(nuevo_estudiante);
-                return;
-            }
-            cout << "error, no entran mas estudiantes" << endl;
-        }
-        void inscribir_estudiante(string nombre, int legajo, int nota_inicial)
-        {
-            if (estudiantes.size()<20)
-            {
-                shared_ptr<estudiante> nuevo_estudiante = make_shared<estudiante>(nombre, legajo, nota_inicial);
-                estudiantes.push_back(nuevo_estudiante);
-                return;
-            }
-            cout << "error, no entran mas estudiantes" << endl;
-        }
+        void inscribir_estudiante(string nombre);
+        /*
+            crea un objeto de la clase estudiante, le asigna el nombre pasado por parametro 
+            y lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
+            caso contrario muestra un mensaje por consola de que no se pudo guardar.
+        */
+
+        void inscribir_estudiante(string nombre, int legajo);
+        /*
+            crea un objeto de la clase estudiante, le asigna el nombre y el legajo pasado por parametro.
+            lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
+            caso contrario muestra un mensaje por consola de que no se pudo guardar.
+        */
+
+        void inscribir_estudiante(string nombre, int legajo, int nota_inicial);
+        /*
+            crea un objeto de la clase estudiante, le asigna el nombre, el legajo y la nota incial pasado por parametro.
+            lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
+            caso contrario muestra un mensaje por consola de que no se pudo guardar.
+        */
 
         //desinscribir alumno//
 
-        void desinscribir_estudiante(int legajo)
-        {
-
-            for (int i = 0; i < estudiantes.size(); i++)
-            {
-                if ( estudiantes[i]->imprimir_legajo() == legajo)
-                {
-                    estudiantes.erase(estudiantes.begin()+i);
-                    return;
-                }
-            }
-            return;
-        }
+        void desinscribir_estudiante(int legajo);
+        /*
+            elimina un estudiante del vector de estudiantes buscandolo por legajo en el caso de que esté. 
+            caso contrario imprime un mensaje por consola de que no se encontro.
+        */
 
         //corroborar que un estudiante este inscripto//
 
-        bool corroborar_inscripcion(int legajo)
-        {
-            for (int i = 0; i < estudiantes.size(); i++)
-            {
-                if ( estudiantes[i]->imprimir_legajo() == legajo)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        bool corroborar_inscripcion(int legajo);
+        /*
+            retorna un true en caso de que el alumno con el legajo pasado por parametro este en el curso. caso contrario devuelve false.
+        */
         
         //imformar curso completo
 
-        bool curso_completo()
-        {
-            return estudiantes.size() < 20;
-        }
+        bool curso_completo();
+        
 
         // imprimir lista de nombres por orden alfabetico
 
-        void imprimir_nombres()
-        {
-
-            
-        }
+        void imprimir_nombres();
 
 };
-curso::~curso(){}

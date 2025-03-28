@@ -14,120 +14,101 @@ class tiempo
         int Segundos;
         string Momento;
 
-        int comprobar_hora(int hora)
-        {
-            return hora <= 24 ? hora : 0;
-        }
-        int comprobar_minutos_segundos(int numero)
-        {
-            return numero <= 60 ? numero : 0;
-        }
-        bool comprobar_momento(string momento)
-        {
-            return momento == "a.m" || momento == "p.m" ? true : false;
-        }
+        int comprobar_hora(int hora);
+        /*
+            retorna la hora pasado por parametro si esta dentro del rango de la hora. caso contrario retorna 0.
+        */
+        int comprobar_minutos_segundos(int numero);
+        /*
+            retorna los minutos/segundos pasado por parametro si esta dentro de minutos/segundos. caso contrario retorna 0.
+        */
+
+        bool comprobar_momento(string momento);
+        /*
+            retorna true si el momento pasado por parametro es "a.m" o "p.m". caso contrario retorna false.
+        */
+
     public:
 
         //constructores del objeto//
 
-        tiempo()
-        {
-            Hora = 0;
-            Minutos = 0;
-            Segundos = 0;
-            Momento = "a.m";
-        }
-        tiempo(int horas)
-        {
-            Hora = comprobar_hora(horas);
-            Minutos = 0;
-            Segundos = 0;
-            Momento = "a.m";
-        }
-        tiempo(int horas, int minutos)
-        {
-            Hora = comprobar_hora(horas);
-            Minutos = comprobar_minutos_segundos(minutos);
-            Segundos = 0;
-            Momento = "a.m";
-        }
-        tiempo(int horas, int minutos, int segundos)
-        {
-            Hora = comprobar_hora(horas);
-            Minutos = comprobar_minutos_segundos(minutos);
-            Segundos = comprobar_minutos_segundos(segundos);
-            Momento = "a.m";
-        }
-        tiempo(int horas, int minutos, int segundos, string momento)
-        {
-            Hora = comprobar_hora(horas);
-            Minutos = comprobar_minutos_segundos(minutos);
-            Segundos = comprobar_minutos_segundos(segundos);
-            Momento = momento;
-        }
+        tiempo();
+        /*
+            inicializa un objeto en hs, mm, ss en cero y momento en "a.m"
+        */
+
+        tiempo(int horas);
+        /*
+            inicializa un objeto en hs con el parametro que se le pase. mm, ss en cero y momento en "a.m"
+        */
+
+        tiempo(int horas, int minutos);
+        /*
+            inicializa un objeto en Hs y Mm con el parametro que se les pase. Ss en cero y momento en "a.m"
+        */
+
+        tiempo(int horas, int minutos, int segundos);
+        /*
+            inicializa un objeto en Hs, Mm y Ss con el parametro que se les pase. El momento en "a.m"
+        */
+
+        tiempo(int horas, int minutos, int segundos, string momento);
+        /*
+            inicializa un objeto en Hs, Mm, Ss y el momento con el parametro que se les pase.
+        */
 
         //metodos para leer y cambiar los atributos definidos en private//
 
-        void leer_hora()
-        {
-            cout << setw(10) <<" hora: " << Hora << endl;
-            return;
-        }
-        void cambiar_hora(int nueva_hora)
-        {
-            int hora_ant = Hora;
-            Hora = comprobar_hora(nueva_hora) == 0 ? hora_ant : nueva_hora;
-            return;
-        }
+        void leer_hora();
+        /*
+            imprime por consola la hora del objeto
+        */
 
-        void leer_minutos()
-        {
-            cout << setw(10) <<" minutos: " << Minutos << endl;
-            return;
-        }
-        void cambiar_minutos(int nuevos_minutos)
-        {
-            int min_ant = Minutos;
-            Minutos = comprobar_minutos_segundos(nuevos_minutos) == 0 ? min_ant : nuevos_minutos;
-            return;
-        }
+        void cambiar_hora(int nueva_hora);
+        /*
+            cambia la hora del objeto con el parametro que se le pase
+        */
 
-        void leer_segundos()
-        {
-            cout << setw(10) <<" segundos: " << Segundos << endl;
-            return;
-        }
-        void cambiar_segundos(int nuevos_segundos)
-        {   
-            int seg_ant = Segundos;
-            Segundos = comprobar_minutos_segundos(nuevos_segundos) == 0 ? seg_ant : nuevos_segundos;
-            return;
-        }
+        void leer_minutos();
+        /*
+            imprime por consola los minutos del objeto
+        */
 
-        void leer_momento()
-        {
-            cout << setw(10) <<"el tiempo esta en intervalo: " << Momento << endl;
-            return;
-        }
-        void cambiar_momento(string nuevo_momento)
-        {   
-            comprobar_momento(nuevo_momento) ? Momento = nuevo_momento : nullptr;
-            return;
-        }
+        void cambiar_minutos(int nuevos_minutos);
+        /*
+            cambia los minutos del objeto con el parametro que se le pase
+        */
 
-        void leer_todo()
-        {
-            cout << setw(10) << "hora: " << Hora << " minutos: " << Minutos << " segundos: " << Segundos << " momento: " << Momento << endl;
-            return;
-        }
+        void leer_segundos();
+        /*
+            imprime por consola los segundos del objeto
+        */
+
+        void cambiar_segundos(int nuevos_segundos);
+        /*
+            cambia los segundos del objeto con el parametro que se le pase
+        */
+
+        void leer_momento();
+        /*
+            imprime por consola los segundos del objeto ( a.m o p.m )
+        */
+
+        void cambiar_momento(string nuevo_momento);
+        /*
+            cambia el momento del objeto con el parametro que se le pase
+        */
+
+        void leer_todo();
+        /*
+            imprime por consola el horario total del objeto
+        */
 
         //metodo para mostrar el tiempo en formato de 0 a 24//
 
-        void mostrar_tiempo_formato_24()
-        {
-            int hora_convertida = Momento == "p.m" ? Hora + 12 : Hora ;
-            cout << setw(10) <<"hora: " << hora_convertida << " minutos: " << Minutos << " segundos: " << Segundos << endl ;
-            return;
-        }
-};
+        void mostrar_tiempo_formato_24();
+        /*
+            imprime por consola el horario total del objeto pero en formato de 24 horas
+        */
 
+};
