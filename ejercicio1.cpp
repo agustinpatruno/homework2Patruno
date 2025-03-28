@@ -1,6 +1,5 @@
 #include "ejercicio1.hpp"
 
-
 class tiempo
 {
     private:
@@ -22,6 +21,7 @@ class tiempo
         {
             return momento == "a.m" || momento == "p.m" ? true : false;
         }
+
     public:
 
         //constructores del objeto//
@@ -59,7 +59,7 @@ class tiempo
             Hora = comprobar_hora(horas);
             Minutos = comprobar_minutos_segundos(minutos);
             Segundos = comprobar_minutos_segundos(segundos);
-            Momento = momento;
+            Momento = comprobar_momento(momento) ? momento : "a.m";
         }
 
         //metodos para leer y cambiar los atributos definidos en private//
@@ -126,8 +126,6 @@ class tiempo
             return;
         }
 };
-
-
 
 void opciones()
 {
@@ -433,6 +431,8 @@ void programa_verificacion()
 
 int main()
 {
+    // casos de inicializacion de objetos con los distintos constructores
+
     tiempo tiempo1(10);
     tiempo1.leer_todo();
 
@@ -443,6 +443,20 @@ int main()
     tiempo3.leer_todo();
 
     tiempo tiempo4(10,22,53,"a.m");
+    tiempo4.leer_todo();
+
+    // casos borde con cada constructor
+
+    tiempo tiempo1(13); // imprime cero en la hora ya que las horas son mayor a 12
+    tiempo1.leer_todo();
+
+    tiempo tiempo2(10,76); // imprime cero en los minutos ya que son mayor a 60
+    tiempo2.leer_todo();
+
+    tiempo tiempo3(10,22,63); // imprime cero en los segundos ya que son mayor a 60
+    tiempo3.leer_todo();
+
+    tiempo tiempo4(10,22,53,"p.s"); // imprime "a.m" en el momento ya que es distinto de "p.m" y "a.m".
     tiempo4.leer_todo();
 
     programa_verificacion();

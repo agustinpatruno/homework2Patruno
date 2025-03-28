@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <algorithm>
+#include <utility>
 using namespace std;
 
 const static int capacidad_alumnos = 20;
@@ -15,33 +16,23 @@ class  estudiante
 
         int legajo;
 
-       vector<double> notas;
+       vector<pair<string,float>> notas;
 
     public:
-        // constructores //
-
-        estudiante();
-
-        estudiante(string nombre);
+        // constructor//
 
         estudiante(string nombre, int numero_legajo);
 
-        estudiante(string nombre, int numero_legajo, int nota_incial);
-
-
         //funciones de ingreso y visualisacion de datos//
 
-        void agregar_nota(int numero_nota);
 
-        void cambiar_nombre(string nombre);
-
-        void cambiar_legajo(int numero_legajo);
+        void agregar_nota(float numero_nota, string materia);
 
         void imprimir_nombre();
 
-        int imprimir_legajo();
+        int imprimir_retornar_legajo();
 
-        int imprimir_promedio();
+        int imprimir_retornar_promedio();
 
         void imprimir_todo();
 };
@@ -61,23 +52,9 @@ class curso
 
         //inscribir estudiante al curso//
 
-        void inscribir_estudiante(string nombre);
-        /*
-            crea un objeto de la clase estudiante, le asigna el nombre pasado por parametro 
-            y lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
-            caso contrario muestra un mensaje por consola de que no se pudo guardar.
-        */
-
         void inscribir_estudiante(string nombre, int legajo);
         /*
             crea un objeto de la clase estudiante, le asigna el nombre y el legajo pasado por parametro.
-            lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
-            caso contrario muestra un mensaje por consola de que no se pudo guardar.
-        */
-
-        void inscribir_estudiante(string nombre, int legajo, int nota_inicial);
-        /*
-            crea un objeto de la clase estudiante, le asigna el nombre, el legajo y la nota incial pasado por parametro.
             lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
             caso contrario muestra un mensaje por consola de que no se pudo guardar.
         */
@@ -108,7 +85,7 @@ class curso
 
         void imprimir_nombres();
         /*
-            imprime por consola los nombres de los estudiantes pertenecientes al curso
+            imprime por consola los nombres de los estudiantes pertenecientes al curso en orden alfabetico
         */
 
 };

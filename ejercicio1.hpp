@@ -39,22 +39,26 @@ class tiempo
 
         tiempo(int horas);
         /*
-            inicializa un objeto en hs con el parametro que se le pase. mm, ss en cero y momento en "a.m"
+            inicializa un objeto en hs con el parametro que se le pase, caso de excederse se incializa en cero. 
+            mm, ss en cero y momento en "a.m". 
         */
 
         tiempo(int horas, int minutos);
         /*
-            inicializa un objeto en Hs y Mm con el parametro que se les pase. Ss en cero y momento en "a.m"
+            inicializa un objeto en Hs y Mm con el parametro que se les pase, caso de que se excedan, se incializaran en cero. 
+            Ss en cero y momento en "a.m"
         */
 
         tiempo(int horas, int minutos, int segundos);
         /*
-            inicializa un objeto en Hs, Mm y Ss con el parametro que se les pase. El momento en "a.m"
+            inicializa un objeto en Hs, Mm y Ss con el parametro que se les pase, caso de excederse se incializaran en cero. 
+            El momento en "a.m"
         */
 
         tiempo(int horas, int minutos, int segundos, string momento);
         /*
-            inicializa un objeto en Hs, Mm, Ss y el momento con el parametro que se les pase.
+            inicializa un objeto en Hs, Mm, Ss y el momento con el parametro que se les pase. caso de que se exceda algun parametro 
+            se incizializa en cero. caso del momento, se incializa en "a.m"
         */
 
         //metodos para leer y cambiar los atributos definidos en private//
@@ -112,3 +116,13 @@ class tiempo
         */
 
 };
+
+void opciones();
+/*
+    imprime por consola la opcion de hora, los minutos, los segundos o el momento
+*/
+
+void programa_verificacion();
+/*
+    interfaz con el usuario para mostrar la hora por separado, la hora en conjunto, la hora en formato 24 horas o modificar el tiempo.
+*/

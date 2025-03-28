@@ -8,79 +8,68 @@ class  estudiante
 
         int legajo;
 
-       vector<double> notas;
+       vector<pair<string,float>> notas;
+
+       float corroborar_nota(float numero)
+        {
+            return numero > 0 ? numero : 0;
+        }
 
     public:
-        // constructores //
+        // constructor //
 
-        estudiante()
-        {
-            nombre_completo = "sin nombre asignado";
-            legajo = 0;
-            notas.push_back(0);
-        }
-        estudiante(string nombre)
-        {
-            nombre_completo = nombre;
-            legajo = 0;
-            notas.push_back(0);
-        }
         estudiante(string nombre, int numero_legajo)
         {
             nombre_completo = nombre;
             legajo = numero_legajo;
         }
-        estudiante(string nombre, int numero_legajo, int nota_incial)
-        {
-            nombre_completo = nombre;
-            legajo = numero_legajo;
-            notas.push_back(nota_incial);
-        }
 
         //funciones de ingreso y visualisacion de datos//
 
-        void agregar_nota(int numero_nota)
+        void agregar_nota(float numero_nota, string materia)
         {
-            notas.push_back(numero_nota);
-        }
-        void cambiar_nombre(string nombre)
-        {
-            nombre_completo = nombre;
-        }
-        void cambiar_legajo(int numero_legajo)
-        {
-            legajo = numero_legajo;
+            if (corroborar_nota(numero_nota))
+            {
+                notas.push_back({materia,numero_nota});
+            }
+            return;
         }
 
         void imprimir_nombre()
         {
             cout <<"nombre completo: " << nombre_completo << endl ;
         }
-        int imprimir_legajo()
+
+        int imprimir_retornar_legajo()
         {   
             cout << "numero de legajo: " << legajo << endl ;
             return legajo;
         }
-        int imprimir_promedio()
+
+        int imprimir_retornar_promedio()
         {
             int promedio = 0;
 
             for (int i = 0; i < notas.size(); i++)
             {
-                promedio += notas[i]; 
+                promedio += notas.at(i).second; 
             }
+
             cout << "promedio general :" << promedio/notas.size() << endl;
 
-            return promedio;
+            return promedio/notas.size();
         }
+
         void imprimir_todo()
         {
             imprimir_nombre();
-            imprimir_legajo();
-            imprimir_promedio();
+
+            imprimir_retornar_legajo();
+
+            imprimir_retornar_promedio();
+
         }
 };
-
 
 class curso
 {
@@ -96,34 +85,11 @@ class curso
 
         //inscribir estudiante al curso//
 
-        void inscribir_estudiante(string nombre)
-        {
-            if (estudiantes.size()<20)
-            {
-                shared_ptr<estudiante> nuevo_estudiante = make_shared<estudiante>(nombre);
-                estudiantes.push_back(nuevo_estudiante);
-                return;
-            }
-            cout << "error, no entran mas estudiantes" << endl;
-            
-        }
-
         void inscribir_estudiante(string nombre, int legajo)
         {
             if (estudiantes.size()<20)
             {
                 shared_ptr<estudiante> nuevo_estudiante = make_shared<estudiante>(nombre,legajo);
-                estudiantes.push_back(nuevo_estudiante);
-                return;
-            }
-            cout << "error, no entran mas estudiantes" << endl;
-        }
-
-        void inscribir_estudiante(string nombre, int legajo, int nota_inicial)
-        {
-            if (estudiantes.size()<20)
-            {
-                shared_ptr<estudiante> nuevo_estudiante = make_shared<estudiante>(nombre, legajo, nota_inicial);
                 estudiantes.push_back(nuevo_estudiante);
                 return;
             }
@@ -137,7 +103,7 @@ class curso
 
             for (int i = 0; i < estudiantes.size(); i++)
             {
-                if ( estudiantes[i]->imprimir_legajo() == legajo)
+                if ( estudiantes[i]->imprimir_retornar_legajo() == legajo)
                 {
                     estudiantes.erase(estudiantes.begin()+i);
                     return;
@@ -153,7 +119,7 @@ class curso
         {
             for (int i = 0; i < estudiantes.size(); i++)
             {
-                if ( estudiantes[i]->imprimir_legajo() == legajo)
+                if ( estudiantes[i]->imprimir_retornar_legajo() == legajo)
                 {
                     return true;
                 }
@@ -171,7 +137,16 @@ class curso
 
         // imprimir lista de nombres por orden alfabetico
 
-        void imprimir_nombres();
+        void imprimir_nombres()
+        {
+            vector<string> nombres;
+
+            for (int i = 0; i < estudiantes.size(); i++)
+            {
+                nombres.push_back(estudiantes.at(i));
+            }
+            
+        }
        
 
 };
