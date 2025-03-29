@@ -16,38 +16,57 @@ class  estudiante
         }
 
     public:
+
         // constructor //
 
         estudiante(string nombre, int numero_legajo)
         {
             nombre_completo = nombre;
+
             legajo = numero_legajo;
+        }
+
+        //sobrecarga del operador //
+
+        bool operator<(const estudiante& otro) const {
+            return nombre_completo < otro.nombre_completo; // Comparar nombres alfabéticamente
+        }
+
+        // sobrecarga del operador para imprimir el nombre del estudiante
+
+        friend std::ostream& operator<<(std::ostream& os, const estudiante& est) {
+            os << est.nombre_completo; // Imprimir solo el nombre
+            return os;
         }
 
         //funciones de ingreso y visualisacion de datos//
 
         void agregar_nota(float numero_nota, string materia)
         {
-            if (corroborar_nota(numero_nota))
+            if (corroborar_nota(numero_nota) && notas.size()<20)
             {
                 notas.push_back({materia,numero_nota});
             }
             return;
         }
 
-        void imprimir_nombre()
+        string retornar_nombre()
         {
-            cout <<"nombre completo: " << nombre_completo << endl ;
+            return nombre_completo;
         }
 
-        int imprimir_retornar_legajo()
-        {   
-            cout << "numero de legajo: " << legajo << endl ;
+        int retornar_legajo()
+        {  
             return legajo;
         }
 
-        int imprimir_retornar_promedio()
+        float retornar_promedio()
         {
+            if (notas.empty())
+            {
+                return 0;
+            }
+            
             int promedio = 0;
 
             for (int i = 0; i < notas.size(); i++)
@@ -55,18 +74,17 @@ class  estudiante
                 promedio += notas.at(i).second; 
             }
 
-            cout << "promedio general :" << promedio/notas.size() << endl;
-
             return promedio/notas.size();
+        
         }
 
         void imprimir_todo()
         {
-            imprimir_nombre();
+            cout << "nombre :" << retornar_nombre() << endl;
 
-            imprimir_retornar_legajo();
+            cout << "numero de legajo: " << retornar_legajo() << endl;
 
-            imprimir_retornar_promedio();
+            cout << "promedio general: " << retornar_promedio() << endl;
 
         }
 };
@@ -79,8 +97,16 @@ class curso
 
     public:
 
-        void inicializacion_curso() {
-            cout << "Curso creado!" << endl;
+        curso(const curso& otro) {
+            /*Justificación:
+             eliji realizar un shallow copy debido a que es mas eficiente en tiempo, no consume espacio en memoria adicional, solo
+             duplica los punteros que apuntan a los datos y mayor simplicidad en el codigo. de este modo puede modificar los valores 
+             tambien sin necesitar memoria.
+             este shallow copy se hace creando un constructor, donde toma por parametro el curso que se desea copiar, luego en el objeto
+             nuevo (estudiantes) se lo iguala a "otro.estudiantes" para realizar una copia superficial, donde ".estudiantes" accede al 
+             vector con los estudiantes del antiguo curso.
+            */
+            estudiantes = otro.estudiantes;
         }
 
         //inscribir estudiante al curso//
@@ -103,7 +129,7 @@ class curso
 
             for (int i = 0; i < estudiantes.size(); i++)
             {
-                if ( estudiantes[i]->imprimir_retornar_legajo() == legajo)
+                if ( estudiantes[i]->retornar_legajo() == legajo)
                 {
                     estudiantes.erase(estudiantes.begin()+i);
                     return;
@@ -119,7 +145,7 @@ class curso
         {
             for (int i = 0; i < estudiantes.size(); i++)
             {
-                if ( estudiantes[i]->imprimir_retornar_legajo() == legajo)
+                if ( estudiantes[i]->retornar_legajo() == legajo)
                 {
                     return true;
                 }
@@ -133,20 +159,27 @@ class curso
         {
             return estudiantes.size() == 20;
         }
-       
 
         // imprimir lista de nombres por orden alfabetico
 
         void imprimir_nombres()
         {
-            vector<string> nombres;
 
-            for (int i = 0; i < estudiantes.size(); i++)
-            {
-                nombres.push_back(estudiantes.at(i));
+            sort(estudiantes.begin(), estudiantes.end(), [](const auto& a, const auto& b) {return *a < *b;});
+    
+            cout << "Nombres de los estudiantes ordenados alfabéticamente:\n";
+
+            for (const auto& est : estudiantes) {
+                std::cout << *est << std::endl; // Usar el operador '<<' sobrecargado
             }
             
         }
-       
-
 };
+
+/*
+d) en mi implementacion del ejercicio 2, la relacion que hay entre la clase estudiante y la clase curso son las siguientes:
+-la de composicion, donde en la clase de curso contiene en un vector a objetos de la clase estudiante.
+-la relacion de asociacion (unidirrecional) donde la clase curso conoce a la clase de estudiante pero no la inversa.
+- la relacion de agregacion ya que puede ser que un objeto de la clase estudiante exista y que un objeto de la clase curso no, donde
+una clase no depende de la existencia de la otra clase.
+*/
