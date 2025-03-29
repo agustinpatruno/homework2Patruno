@@ -28,13 +28,15 @@ class  estudiante
 
         void agregar_nota(float numero_nota, string materia);
 
-        void imprimir_nombre();
+        void retornar_nombre();
 
-        int imprimir_retornar_legajo();
+        int retornar_legajo();
 
-        int imprimir_retornar_promedio();
+        int retornar_promedio();
 
         void imprimir_todo();
+        
+        bool corroborar_materia_existente(string materia);
 };
 
 
@@ -45,9 +47,17 @@ class curso
         vector<shared_ptr<estudiante>> estudiantes;
 
     public:
-        void inicializacion_curso();
+
+        //constructores //
+
+        curso();
         /*
-            muestra un mensaje por consola de que se creo bien el objeto
+            incializa un objeto curso sin hacerle nada. imprime por consola un mensaje de que se creo el objeto curso
+        */
+
+        curso(const curso& otro);
+        /*
+            constructor que realiza un shallow copy del objeto curso que se le pasa por parametro
         */
 
         //inscribir estudiante al curso//
