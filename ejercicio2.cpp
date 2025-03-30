@@ -1,196 +1,201 @@
-#include <ejercicio2.hpp>
+#include "ejercicio2.hpp"
 
-class  estudiante
+
+
+
+float corroborar_nota(float numero)
 {
-    private:
+    return numero > 0 ? numero : 0;
+}
 
-        string nombre_completo;
+// constructor //
 
-        int legajo;
-
-       vector<pair<string,float>> notas;
-
-       float corroborar_nota(float numero)
-        {
-            return numero > 0 ? numero : 0;
-        }
-
-    public:
-
-        // constructor //
-
-        estudiante(string nombre, int numero_legajo)
-        {
-            nombre_completo = nombre;
-
-            legajo = numero_legajo;
-        }
-
-        //sobrecarga del operador //
-
-        bool operator<(const estudiante& otro) const {
-            return nombre_completo < otro.nombre_completo; // Comparar nombres alfabéticamente
-        }
-
-        // sobrecarga del operador para imprimir el nombre del estudiante
-
-        friend std::ostream& operator<<(std::ostream& os, const estudiante& est) {
-            os << est.nombre_completo; // Imprimir solo el nombre
-            return os;
-        }
-
-        //funciones de ingreso y visualisacion de datos//
-
-        void agregar_nota(float numero_nota, string materia)
-        {
-            if (corroborar_nota(numero_nota) && notas.size()<20)
-            {
-                notas.push_back({materia,numero_nota});
-            }
-            return;
-        }
-
-        string retornar_nombre()
-        {
-            return nombre_completo;
-        }
-
-        int retornar_legajo()
-        {  
-            return legajo;
-        }
-
-        float retornar_promedio()
-        {
-            if (notas.empty())
-            {
-                return 0;
-            }
-            
-            int promedio = 0;
-
-            for (int i = 0; i < notas.size(); i++)
-            {
-                promedio += notas.at(i).second; 
-            }
-
-            return promedio/notas.size();
-        
-        }
-
-        void imprimir_todo()
-        {
-            cout << "nombre :" << retornar_nombre() << endl;
-
-            cout << "numero de legajo: " << retornar_legajo() << endl;
-
-            cout << "promedio general: " << retornar_promedio() << endl;
-
-        }
-
-        bool corroborar_materia_existente(string materia)
-        {
-            for (int i = 0; i < notas.size(); i++)
-            {
-                if (notas[i].first == materia)
-                {
-                    cout << "materia ya ingresada " << endl;
-                    return false;
-                }
-            }
-            return true;
-        }
-};
-
-class curso
+estudiante::estudiante(string nombre, int numero_legajo)
 {
-    private:
+    nombre_completo = nombre;
 
-        vector<shared_ptr<estudiante>> estudiantes;
+    legajo = numero_legajo;
+}
 
-    public:
-        //constructores //
+//sobrecarga del operador //
 
-        curso()
+bool estudiante::operator<(const estudiante& otro) const {
+    return nombre_completo < otro.nombre_completo; // Comparar nombres alfabéticamente
+}
+
+// sobrecarga del operador para imprimir el nombre del estudiante
+
+ostream& operator<<(std::ostream& os, const estudiante& est) {
+    os << est.nombre_completo; // Imprimir solo el nombre
+    return os;
+}
+
+//funciones de ingreso y visualisacion de datos//
+
+void estudiante::agregar_nota(float numero_nota, string materia)
+{
+    if (corroborar_nota(numero_nota) && notas.size()<20)
+    {
+        notas.push_back({materia,numero_nota});
+    }
+    return;
+}
+
+string estudiante::retornar_nombre()
+{
+    return nombre_completo;
+}
+
+int estudiante::retornar_legajo()
+{  
+    return legajo;
+}
+
+float estudiante::retornar_promedio()
+{
+    if (notas.empty())
+    {
+        return 0;
+    }
+    
+    int promedio = 0;
+
+    for (int i = 0; i < notas.size(); i++)
+    {
+        promedio += notas.at(i).second; 
+    }
+
+    return promedio/notas.size();
+
+}
+
+void estudiante::imprimir_todo()
+{
+    cout << "nombre :" << retornar_nombre() << endl;
+
+    cout << "numero de legajo: " << retornar_legajo() << endl;
+
+    cout << "promedio general: " << retornar_promedio() << endl;
+
+}
+
+bool estudiante::corroborar_materia_existente(string materia)
+{
+    for (int i = 0; i < notas.size(); i++)
+    {
+        if (notas[i].first == materia)
         {
-            cout << " se creo el objeto curso" << endl;
-        }
-
-        curso(const curso& otro) {
-
-            /*Justificación:
-             eliji realizar un shallow copy debido a que es mas eficiente en tiempo, no consume espacio en memoria adicional, solo
-             duplica los punteros que apuntan a los datos y mayor simplicidad en el codigo. de este modo puede modificar los valores 
-             tambien sin necesitar memoria.
-             este shallow copy se hace creando un constructor, donde toma por parametro el curso que se desea copiar, luego en el objeto
-             nuevo (estudiantes) se lo iguala a "otro.estudiantes" para realizar una copia superficial, donde ".estudiantes" accede al 
-             vector con los estudiantes del antiguo curso.
-            */
-            estudiantes = otro.estudiantes;
-        }
-
-        //inscribir estudiante al curso//
-
-        void inscribir_estudiante(const shared_ptr<estudiante>& nuevo)
-        {
-            estudiantes.push_back(nuevo);
-            return;
-        }
-
-        //desinscribir alumno//
-
-        void desinscribir_estudiante(int legajo)
-        {
-
-            for (int i = 0; i < estudiantes.size(); i++)
-            {
-                if ( estudiantes[i] -> retornar_legajo() == legajo)
-                {
-                    estudiantes.erase(estudiantes.begin()+i);
-                    return;
-                }
-            }
-
-            cout << "el estudiante con el legajo : "<< legajo << " no se encuentra en el curso" << endl;
-            return;
-        }
-
-        //corroborar que un estudiante este inscripto//
-
-        bool corroborar_inscripcion(int legajo)
-        {
-            for (int i = 0; i < estudiantes.size(); i++)
-            {
-                if ( estudiantes[i]->retornar_legajo() == legajo)
-                {
-                    return true;
-                }
-            }
+            cout << "materia ya ingresada " << endl;
             return false;
         }
-        
-        //imformar curso completo
+    }
+    return true;
+}
 
-        bool curso_completo()
+
+//constructores //
+
+curso::curso()
+{
+    cout << " se creo el objeto curso" << endl;
+}
+
+curso::curso(const curso& otro) {
+
+    /*Justificación:
+        eliji realizar un shallow copy debido a que es mas eficiente en tiempo, no consume espacio en memoria adicional, solo
+        duplica los punteros que apuntan a los datos y mayor simplicidad en el codigo. de este modo puede modificar los valores 
+        tambien sin necesitar memoria.
+        este shallow copy se hace creando un constructor, donde toma por parametro el curso que se desea copiar, luego en el objeto
+        nuevo (estudiantes) se lo iguala a "otro.estudiantes" para realizar una copia superficial, donde ".estudiantes" accede al 
+        vector con los estudiantes del antiguo curso.
+    */
+    estudiantes = otro.estudiantes;
+}
+
+//inscribir estudiante al curso//
+
+void curso::inscribir_estudiante(const shared_ptr<estudiante>& nuevo)
+{
+    estudiantes.push_back(nuevo);
+    return;
+}
+
+//desinscribir alumno//
+
+void curso::desinscribir_estudiante(int legajo)
+{
+
+    for (int i = 0; i < estudiantes.size(); i++)
+    {
+        if ( estudiantes[i] -> retornar_legajo() == legajo)
         {
-            return estudiantes.size() == 20;
+            estudiantes.erase(estudiantes.begin()+i);
+            return;
         }
+    }
+    return;
+}
 
-        // imprimir lista de nombres por orden alfabetico
+//corroborar que un estudiante este inscripto//
 
-        void imprimir_nombres()
+bool curso::corroborar_inscripcion(int legajo)
+{
+    for (int i = 0; i < estudiantes.size(); i++)
+    {
+        if ( estudiantes[i]->retornar_legajo() == legajo)
         {
+            return true;
+        }
+    }
+    return false;
+}
 
-            sort(estudiantes.begin(), estudiantes.end(), [](const auto& a, const auto& b) {return *a < *b;});
+//imformar curso completo
+
+bool curso::curso_completo()
+{
+    return estudiantes.size() == 20;
+}
+
+// imprimir lista de nombres por orden alfabetico
+
+void curso::imprimir_nombres()
+{
+
+    sort(estudiantes.begin(), estudiantes.end(), [](const auto& a, const auto& b) {return *a < *b;});
+
+    cout << "Nombres de los estudiantes ordenados alfabéticamente:\n";
+
+    for (const auto& est : estudiantes) {
+        std::cout << *est << std::endl; // Usar el operador '<<' sobrecargado
+    }
     
-            cout << "Nombres de los estudiantes ordenados alfabéticamente:\n";
+}
 
-            for (const auto& est : estudiantes) {
-                std::cout << *est << std::endl; // Usar el operador '<<' sobrecargado
+void curso::imprimir_info(int legajo, bool nombre, bool legaj, bool promedio)
+{
+    for (int i = 0; i < estudiantes.size(); i++)
+    {
+        if ( estudiantes[i]->retornar_legajo() == legajo)
+        {
+            if (nombre)
+            {
+                cout << "nombre completo: " << estudiantes[i] ->retornar_nombre() << endl;
             }
-            
+            if (legaj)
+            {
+                cout << "numero de legajo: " << estudiantes[i] ->retornar_legajo() << endl;
+            }
+            if (promedio)
+            {
+                cout << "promedio general: " << estudiantes[i] ->retornar_promedio() << endl;
+            }
+            return;
         }
-};
+    }
+}
+
 
 /*
 d) en mi implementacion del ejercicio 2, la relacion que hay entre la clase estudiante y la clase curso son las siguientes:
@@ -208,23 +213,32 @@ void opciones()
     cout << "3) corroborar inscripcion de estudiante " << endl;
     cout << "4) indicar si el curso esta lleno" << endl;
     cout << "5) imprimir lista de estudiantes en orden alfabetico " << endl;
-    cout << "6) hacer una copia del objeto curso " << endl;
-    cout << "7) ver imformacion de un estudiante " << endl;
+    cout << "6) ver informacion de un estudiante " << endl;
     cout << "-1) para terminar el programa " << endl;
+    return;
 }
 
-int pedir_numero_correcto(int numero)
+void opciones_estudiante()
+{
+    cout << "1) ver el nombre completo " << endl;
+    cout << "2) ver en numero de legajo " << endl;
+    cout << "3) ver el promedio " << endl;
+    cout << "4) ver todo junto " << endl;
+    return;
+}
+
+int pedir_numero_correcto(int numero, int rango)
 {
     int num = numero;
 
-    while (num > 7 || num < 1)
+    while (num > rango || num < 1)
     {
         cout << " error, ingrese un numero dentro de las opciones: " << endl;
         cin >> num;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     
     return num;
-
 }
 
 int pedir_legajo(int legajo, curso lista_estudiantes)
@@ -235,6 +249,7 @@ int pedir_legajo(int legajo, curso lista_estudiantes)
     {
         cout << "error, ingrese un numero de legajo entero, positivo y que no este en el curso: " << endl;
         cin >> leg;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     return leg;
 }
@@ -242,8 +257,6 @@ int pedir_legajo(int legajo, curso lista_estudiantes)
 void interfaz_curso()
 {
     curso mi_curso;
-
-    int contador_alumnos = 0;
 
     while (true)
     {
@@ -257,25 +270,27 @@ void interfaz_curso()
             return;
         }
         
-        opcion = pedir_numero_correcto(opcion);
+        opcion = pedir_numero_correcto(opcion,6);
         
         int legajo;
 
-        if (opcion == 1 && contador_alumnos < 20)
+        if (opcion == 1 && !mi_curso.curso_completo())
         {
     
             cout << "ingrese numero de legajo" << endl;
             cin >> legajo;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             legajo = pedir_legajo(legajo, mi_curso);
 
 
             string nombre;
             cout << "ingrese el nombre completo" << endl;
-            cin >> nombre;
+            getline(cin, nombre); 
 
             shared_ptr<estudiante>  nuevo_estudiante = make_shared<estudiante>(nombre,legajo);
 
             cout << "agregar nota de materias :" << endl;
+            
             while (true)
             {
                 string nueva_materia;
@@ -284,7 +299,7 @@ void interfaz_curso()
                 //pido el nombre de la materia
 
                 cout << "ingrese el nombre de la materia(poner -1 en caso de querer dejar de agregar materias): " << endl;
-                cin >> nueva_materia;
+                getline(cin, nueva_materia);
 
                 if (nueva_materia == "-1")
                 {
@@ -294,32 +309,132 @@ void interfaz_curso()
                 while (! nuevo_estudiante -> corroborar_materia_existente(nueva_materia))
                 {
                     cout << "error, ingrese una materia que no este todavia: " << endl;
-                    cin >> nueva_materia;
+                    getline(cin, nueva_materia);
                 }
             
                 // pido la nota de la materia
 
                 cout << "ingrese la nota asociada a la materia: " << endl;
                 cin >> nota;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-                while (nota < 0)
-                {
+                while (nota < 0 || nota > 10)
+                {   
                     cout << "ingrese una nota positiva: " << endl;
                     cin >> nota;
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
                 
                 nuevo_estudiante -> agregar_nota(nota,nueva_materia);
             }
 
             mi_curso.inscribir_estudiante(nuevo_estudiante);
-            contador_alumnos ++;
         }
         else if (opcion == 2)
         {
-            /* code */
+            cout << " ingrese el legajo de la persona que quieras borrar: " << endl;
+            cin >> legajo;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            while (legajo < 0 || !mi_curso.corroborar_inscripcion(legajo))
+            {
+                cout << "error, ingrese un numero positivo que este en el curso: " << endl;
+                cin >> legajo;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            
+            mi_curso.desinscribir_estudiante(legajo);
         }
-        
-        
+        else if (opcion == 3)
+        {
+
+            cout << "-----" << endl;
+            cout << " ingrese el legajo de la persona que quieras saber si esta inscripto: " << endl;
+            cin >> legajo;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            while (legajo < 0)
+            {
+                cout << "error, ingrese numero positivo: " << endl;
+                cin >> legajo;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            
+            bool rta = mi_curso.corroborar_inscripcion(legajo);
+
+
+            if (rta)
+            {
+                cout << " el alumno con legajo: " << legajo << " esta en el curso" << endl;
+            }
+            else
+            {
+                cout << " el alumno con legajo: " << legajo << " no esta en el curso" << endl;
+            }
+        }
+        else if (opcion == 4)
+        {
+            if (mi_curso.curso_completo())
+            {
+                cout << " - el curso esta lleno" << endl;
+            }
+            else
+            {
+                cout << " - el curso no esta lleno " << endl;
+            }
+        }
+        else if (opcion == 5)
+        {
+            mi_curso.imprimir_nombres();
+        }
+        else if (opcion == 6)
+        {
+            cout << " - ingrese el legajo de la persona que quieras ver su informacion: " << endl;
+            cin >> legajo;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            while (legajo < 0 || !mi_curso.corroborar_inscripcion(legajo))
+            {
+                cout << "error, ingrese un numero positivo que este en el curso: " << endl;
+                cin >> legajo;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+
+            int opcioninfo = 0;
+            opciones_estudiante();
+            cin >> opcioninfo;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            opcioninfo = pedir_numero_correcto(opcioninfo,4);
+
+            cout << "-----" << endl;
+
+            if (opcioninfo == 1)
+            {
+                mi_curso.imprimir_info(legajo,true,false,false);
+            }
+            else if (opcioninfo == 2)
+            {
+                mi_curso.imprimir_info(legajo,false,true,false);
+            }
+            else if (opcioninfo == 3)
+            {
+                mi_curso.imprimir_info(legajo,false,false,true);
+            }
+            else
+            {
+                mi_curso.imprimir_info(legajo,true,true,true);
+            }
+        } 
+        cout << "-----------------------------------------" << endl;
     }
      
+}
+
+int main()
+{
+
+    interfaz_curso();
+    return 0;
+
 }

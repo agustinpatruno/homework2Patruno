@@ -1,7 +1,11 @@
+#ifndef EJERCICIO2_HPP
+#define EJERCICIO2_HPP
+
 #include <vector>
 #include <iostream>
 #include <string>
 #include <memory>
+#include <limits>
 #include <algorithm>
 #include <utility>
 using namespace std;
@@ -23,16 +27,21 @@ class  estudiante
 
         estudiante(string nombre, int numero_legajo);
 
-        //funciones de ingreso y visualisacion de datos//
+        // sobrecarga de operadores //
 
+        bool operator<(const estudiante& otro) const;
+
+        friend ostream& operator<<(ostream& os, const estudiante& est);
+
+        //funciones de ingreso y visualisacion de datos//
 
         void agregar_nota(float numero_nota, string materia);
 
-        void retornar_nombre();
+        string retornar_nombre();
 
         int retornar_legajo();
 
-        int retornar_promedio();
+        float retornar_promedio();
 
         void imprimir_todo();
         
@@ -62,7 +71,7 @@ class curso
 
         //inscribir estudiante al curso//
 
-        void inscribir_estudiante(string nombre, int legajo);
+        void inscribir_estudiante(const shared_ptr<estudiante>& nuevo);
         /*
             crea un objeto de la clase estudiante, le asigna el nombre y el legajo pasado por parametro.
             lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
@@ -98,4 +107,8 @@ class curso
             imprime por consola los nombres de los estudiantes pertenecientes al curso en orden alfabetico
         */
 
+        void imprimir_info(int legajo, bool nombre, bool legaj, bool promedio);
+
 };
+
+#endif // EJERCICIO2_HPP
