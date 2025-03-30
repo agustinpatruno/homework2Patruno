@@ -13,7 +13,7 @@ ej1: ejercicio1.cpp ejercicio1.hpp
 	$(CXX) $(CXXFLAGS) -o $(TARGET_EJ1) ejercicio1.cpp
 	./$(TARGET_EJ1)
 
-ej2: ejercicio2.cpp
+ej2: ejercicio2.cpp ejercicio2.hpp
 	$(CXX) $(CXXFLAGS) -o $(TARGET_EJ2) ejercicio2.cpp
 	./$(TARGET_EJ2)
 
