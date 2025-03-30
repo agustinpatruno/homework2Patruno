@@ -22,30 +22,61 @@ class  estudiante
 
        vector<pair<string,float>> notas;
 
+       bool corroborar_nota(float numero);
+
     public:
         // constructor//
 
         estudiante(string nombre, int numero_legajo);
+        /*
+            crea un objeto de clase estudiante, asignando el nombre completo y el numero de legajo con los parametros pasados.
+        */
 
         // sobrecarga de operadores //
 
         bool operator<(const estudiante& otro) const;
+        /*
+            sobrecarga el operador para poder comparar dos objetos de la clase estudiante por su nombre.
+        */
 
         friend ostream& operator<<(ostream& os, const estudiante& est);
+        /*
+            sobrecarga el operador para poder imprimir solo el nombre completo del objeto estudiante
+        */
 
         //funciones de ingreso y visualisacion de datos//
 
         void agregar_nota(float numero_nota, string materia);
+        /*
+            agrega una nota al objeto estudiante con su calificacion y el nombre de la materia asociada. en caso de que la nota se pase
+            del rango o que la materia ya sea ingresada, no lo guarda
+        */
 
         string retornar_nombre();
+        /*
+            retornar el nombre completo del objeto estudiante
+        */
 
         int retornar_legajo();
+        /*
+            retorna el numero de legajo del objeto estudiante
+        */
 
         float retornar_promedio();
+        /*
+            retorna el promedio de las notas de todas las materias del objeto estudiante
+        */
 
         void imprimir_todo();
+        /*
+            imprime por consola el nombre completo, el numero de legajo y el promedio general del objeto estudiante
+        */
         
         bool corroborar_materia_existente(string materia);
+        /*
+            corrobora que una la nota de una materia haya sido guardada anteriormente. caso de que ya este guardada devuelve false,
+            si no esta guardada devuelve true.
+        */
 };
 
 
@@ -110,5 +141,29 @@ class curso
         void imprimir_info(int legajo, bool nombre, bool legaj, bool promedio);
 
 };
-
 #endif // EJERCICIO2_HPP
+
+void opciones();
+/*
+    imprime por consola todas las opciones que tiene el usuario para realizar. inscribir alumno, desincribir alumno, imprimir nombres, etc
+*/
+
+void opciones_estudiante();
+/*
+    imprimer por consola todas las opciones que tiene para ver la informarcion de un estudiante, nombre completo, legajo, etc.
+*/
+
+int pedir_numero_correcto(int numero, int rango);
+/*
+    se le pasa el numero ingresado por el usuario, y el rango de opciones que se tiene
+    si el numero no esta dentro del rango, se le pide nuevamente el numero hasta que este dentro. luego retorna ese numero
+*/
+
+int pedir_legajo(int legajo, curso lista_estudiantes);
+/*
+    se le pasa el numero de legajo ingresado por el usuario y el objeto curso
+    si el numero de legajo es negativo o ya esta en la lista de estudiantes, se le vuelve a pedir hasta que cumpla. 
+    luego retorna retorna el numero de legajo.
+*/
+
+void interfaz_curso(); /* funcion de interfaz con el usuario*/
