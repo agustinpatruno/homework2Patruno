@@ -150,6 +150,6 @@ class complejo : public Numero
 
         string toString() const override;
         /*
-            retorna en valor de numero en formato string
+            retorna la parte real y la parte imaginaria del complejo en formato string
         */
 };

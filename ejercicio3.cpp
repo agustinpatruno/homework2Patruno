@@ -270,8 +270,6 @@ string real::toString() const {
     return to_string(numero);
 }
 
-
-
 /// implementacion de los metodos de la clase complejo ///
 
 complejo::complejo(double real, double imaginaria)
@@ -308,7 +306,7 @@ unique_ptr<Numero> complejo::sumar(const Numero& otro) const
     const entero* e = dynamic_cast<const entero*>(&otro);
     if (e) 
     {
-        return make_unique<entero>(parte_real + e->getValor(), parte_imaginaria);
+        return make_unique<complejo>(parte_real + e->getValor(), parte_imaginaria);
     }
 
     if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
@@ -333,7 +331,7 @@ unique_ptr<Numero> complejo::restar(const Numero& otro) const
     const entero* e = dynamic_cast<const entero*>(&otro);
     if (e) 
     {
-        return make_unique<entero>(parte_real - e->getValor(), parte_imaginaria);
+        return make_unique<complejo>(parte_real - e->getValor(), parte_imaginaria);
     }
 
     if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
@@ -358,7 +356,7 @@ unique_ptr<Numero> complejo::multiplicar(const Numero& otro) const
     const entero* e = dynamic_cast<const entero*>(&otro);
     if (e) 
     {
-        return make_unique<entero>(parte_real * e->getValor(), parte_imaginaria);
+        return make_unique<complejo>(parte_real * e->getValor(), parte_imaginaria*e->getValor());
     }
 
     if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
@@ -395,7 +393,7 @@ unique_ptr<Numero> complejo::dividir(const Numero& otro) const
     {
         if (e->getValor() != 0)
         {  
-            return make_unique<entero>(parte_real / e->getValor(), parte_imaginaria);
+            return make_unique<complejo>(parte_real / e->getValor(), parte_imaginaria);
         }
         throw invalid_argument("division por cero");
         return nullptr;
