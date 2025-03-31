@@ -1,3 +1,6 @@
+#ifndef EJERCICIO3_HPP
+#define EJERCICIO3_HPP
+
 #include <iostream>
 #include <string>
 #include <memory>
@@ -6,12 +9,26 @@ using namespace std;
 class Numero
 {
     public:
-    virtual unique_ptr<Numero> sumar(const Numero& otro) const = 0;
-    virtual unique_ptr<Numero> restar(const Numero& otro) const = 0;
-    virtual unique_ptr<Numero> multiplicar(const Numero& otro) const = 0;
-    virtual unique_ptr<Numero> dividir(const Numero& otro) const = 0;
-    virtual string toString() const = 0;
+        virtual unique_ptr<Numero> sumar(const Numero& otro) const = 0;
+        /*
         
+        */
+        virtual unique_ptr<Numero> restar(const Numero& otro) const = 0;
+        /*
+        
+        */
+        virtual unique_ptr<Numero> multiplicar(const Numero& otro) const = 0;
+        /*
+        
+        */
+        virtual unique_ptr<Numero> dividir(const Numero& otro) const = 0;
+        /*
+        
+        */
+        virtual string toString() const = 0;
+        /*
+        
+        */
 };
 
 class entero : public Numero
@@ -153,3 +170,5 @@ class complejo : public Numero
             retorna la parte real y la parte imaginaria del complejo en formato string
         */
 };
+
+#endif
