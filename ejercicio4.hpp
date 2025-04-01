@@ -13,6 +13,10 @@ class cuenta_de_banco
 
         double balance;
 
+    public:
+        
+        cuenta_de_banco(double balance, string nombretitular);
+        
         double obtenerbalance() const;
 
         void depositar(double monto_depositar);
@@ -20,10 +24,6 @@ class cuenta_de_banco
         void virtual retirar(double monto_retirar) = 0;
 
         void virtual mostrarinfo() = 0;
-    
-    public:
-        
-        cuenta_de_banco(double balance, string nombretitular);
 };
 
 class caja_de_ahorro : public cuenta_de_banco
@@ -86,13 +86,6 @@ clase cuenta_de_banco:
         - cuenta_de_banco(double balance, string nombretitular);
             debido a que el constructor del objeto tiene que estar necesariamente en la parte pubblica para poder crear el objeto.
         
-    protected:
-        - string titularcuenta;
-            nombre del titular de la cuenta.
-
-        - double balance;
-            balance del titular de la cuenta.
-
         -  double obtenerbalance() const;
             retorna el valor del balance. el const impide modificar cualquier atributo.
 
@@ -106,10 +99,18 @@ clase cuenta_de_banco:
         - void virtual mostrarinfo() = 0;
             metodo virtual puto. muestra la informacion del titular de la cuenta(nombre, tipo de cuenta, balance). 
 
-        todos estos metodos y atributos estan en protected para permitir que las clases derivadas hereden los mismo y puedan acceder
-        a sus funcionalidades.
+        todos estos metodos y atributos estan en public para permitir que las clases derivadas hereden los mismo y puedan acceder
+        a sus funcionalidades desde, ya que cuando se deriva una clase de forma publica, los metodos que estan en public van a
+        estar disponibles en la parte public de la clase derivada.
+        
+    protected:
+        - string titularcuenta;
+            nombre del titular de la cuenta.
 
+        - double balance;
+            balance del titular de la cuenta.
 
+       
 clase caja_de_ahorro: 
     
     private:
@@ -138,6 +139,38 @@ clase caja_de_ahorro:
             (tipo de cuenta = caja de ahorro)
         
         el constructor necesariamente tiene que estar en public para que se pueda crear el objeto.
-        la funcion retirar, debe estar en public para que el titular de la cuenta pueda retirar de su cuenta el dinero que desee. 
+        la funcion retirar al igual que la funcion de mostrarinfo, debe estar en public para que el titular de la cuenta pueda 
+        retirar de su cuenta el dinero que desee. 
+
+clase cuentacorriente: 
+
+    private:
+        - unique_ptr<caja_de_ahorro> caja_ahorro;
+            puntero unique_ptr a una caja de ahorro.
         
+        el puntero a caja_de_ahorro esta en la parte private por que no quiero que pueda ser accedido y modificado desde afuera del 
+        objeto. ya que si estuviera en la parte public, el usuario podria alterar la informacion de la caja de ahorro, modificando su
+        balance, de modo que valor que tenga asociado sea no correspondido.    
+    
+    public:
+         
+        - friend class caja_de_ahorro;
+            asigno a la clase cuentacorriente, que pueda acceder a todas los metodos/atributos de las areas de la clase caja_de_ahorro
+
+        - cuentacorriente(double balance_cuenta_corriente, double balance_cuenta_ahorro, string nombretitular);
+            constructor que incializa el objeto de la cuentacorriente con el balance de la cuenta corriente y el nombre del titular. 
+            ademas crea un objeto de la clase cuenta_de_ahorro y la inicializa con el balance de la cuenta de ahorro y el nombre del
+            titular.
+
+        - void virtual retirar(double monto_retirar)override;
+            funcion virtual derivada de la clase cuenta_de_banco. caso de que el monto a retirar sea negativo o mayor al monto 
+            guardado en el balance, intenta sacar dinero de la cuenta de ahorro, pasandole como parametro la diferencia entre el monto
+            incial y el balance en la cuenta corriente. 
+
+        - void virtual mostrarinfo()override;
+            funcion virtual derivada de la clase cuenta_de_banco. muestra la informacion del titular de la cuenta. 
+        
+        el constructor neceriamente tiene que estar en la parte public debido a que se requiere para incializar el objeto.
+        la funcion de retirar, debe estar en la parte public para que el usuario pueda retirar dinero de su cuenta corriente. 
+        la funcion de mostrarinfo, para que el usuario pueda ver sus datos, tiene que estar habilitado al publico. 
 */

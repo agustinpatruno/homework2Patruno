@@ -1,4 +1,4 @@
-#include <ejercicio4.hpp>
+#include "ejercicio4.hpp"
 
 ////// implementacion de los metodos de la clase cuenta_de_banco //////
 
@@ -25,7 +25,10 @@ void caja_de_ahorro::descuento()
     {
         if (obtenerbalance() >= 20)
         {
+            cout << "se descontara 20$ por solicitar ver la informacion " << endl;
+
             balance -= 20;
+
             return;
         }
         cout << "no hay suficiente dinero para aplicar el descuento" << endl;
@@ -42,12 +45,12 @@ void caja_de_ahorro::retirar(double monto_retirar)
 {
     if (monto_retirar < 0)
     { 
-        throw invalid_argument("arror, no se puede retirar un monto negativo");
+        throw invalid_argument("error, no se puede retirar un monto negativo");
         return;
     }
     if (monto_retirar > obtenerbalance())
     {
-        cout << "arror, no se puede retirar un monto mayor al que hay en la cuenta de ahorro." << endl;
+        cout << "error, no se puede retirar un monto mayor al que hay en la cuenta de ahorro." << endl;
         return;
     }
 
@@ -57,9 +60,11 @@ void caja_de_ahorro::retirar(double monto_retirar)
 
 void caja_de_ahorro::mostrarinfo()
 {
+    
     cout << "tipo de cuenta: cuenta de ahorro" << endl;
     cout << "balance: " << balance << endl;
     cout << "nombre del titular: " << titularcuenta << endl;
+    cout << "------------------" << endl;
     
     cant_veces_info += 1;
 
@@ -94,13 +99,50 @@ void cuentacorriente::retirar(double monto_retirar)
 
         balance = 0;
 
+        cout << " se intentara retirar: " << excedente << " de la caja de ahorro" << endl;
+
         caja_ahorro->retirar(excedente);
+    
     }
 }
 
 void cuentacorriente::mostrarinfo()
 {
+ 
     cout << "tipo de cuenta: cuenta corriente" << endl;
     cout << "balance: " << balance << endl;
     cout << "nombre del titular: " << titularcuenta << endl;
+    cout << "------------------" << endl;
+}
+
+int main()
+{
+
+    caja_de_ahorro miCajaDeAhorro(1000.0, "Juan Pérez");
+
+    cuentacorriente miCuentaCorriente(2000.0, 500.0, "María López");
+
+    // operaciones en la caja de ahorro
+
+    cout << "------------operaciones de la caja de ahorro ---------------" << endl;
+
+    miCajaDeAhorro.mostrarinfo();
+    miCajaDeAhorro.retirar(200.0);
+    miCajaDeAhorro.mostrarinfo();
+    miCajaDeAhorro.depositar(150.43);
+    miCajaDeAhorro.mostrarinfo();
+    cout <<" - balance de la cuenta de ahorro: "<< miCajaDeAhorro.obtenerbalance() << endl;
+    miCajaDeAhorro.retirar(1500.54);
+
+    // operaciones en la cuenta corriente
+
+    cout << "------------operaciones de la cuenta corriente --------------" << endl;
+
+    miCuentaCorriente.retirar(750.65);
+    miCuentaCorriente.mostrarinfo();
+    miCuentaCorriente.depositar(120.22);
+    miCuentaCorriente.mostrarinfo();
+    cout << " balance de la cuenta corriente: " << miCuentaCorriente.obtenerbalance() << endl;
+    miCuentaCorriente.retirar(2300.43);
+    miCuentaCorriente.retirar(-230);
 }

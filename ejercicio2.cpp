@@ -200,10 +200,7 @@ void curso::imprimir_info(int legajo, bool nombre, bool legaj, bool promedio)
 
 /*
 d) en mi implementacion del ejercicio 2, la relacion que hay entre la clase estudiante y la clase curso son las siguientes:
--la de composicion, donde en la clase de curso contiene en un vector a objetos de la clase estudiante.
 -la relacion de asociacion (unidirrecional) donde la clase curso conoce a la clase de estudiante pero no la inversa.
-- la relacion de agregacion ya que puede ser que un objeto de la clase estudiante exista y que un objeto de la clase curso no, donde en
-este caso, una clase no depende de la existencia de la otra clase.
 */
 
 void opciones()
