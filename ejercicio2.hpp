@@ -77,8 +77,9 @@ class  estudiante
             corrobora que una la nota de una materia haya sido guardada anteriormente. caso de que ya este guardada devuelve false,
             si no esta guardada devuelve true.
         */
-};
 
+        void imprimir_info(int legajo, bool nombre, bool legaj, bool promedio);
+};
 
 class curso
 {
