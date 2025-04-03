@@ -1,6 +1,5 @@
 #include "ejercicio3.hpp"
 
-
 /// implementacion de los metodos de la clase entero ///
 
 entero::entero(int num)
