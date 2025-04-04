@@ -32,6 +32,11 @@ class  estudiante
             crea un objeto de clase estudiante, asignando el nombre completo y el numero de legajo con los parametros pasados.
         */
 
+        void establecerLegajo(int numero_legajo);
+        /*
+            asigna el numero_legajo al atributo legajo en caso de que sea positivo. Caso contrario, arroja un throw.
+        */
+
         // sobrecarga de operadores //
 
         bool operator<(const estudiante& otro) const;
@@ -103,7 +108,7 @@ class curso
 
         //inscribir estudiante al curso//
 
-        void inscribir_estudiante(const shared_ptr<estudiante>& nuevo);
+        bool inscribir_estudiante(const shared_ptr<estudiante>& nuevo);
         /*
             crea un objeto de la clase estudiante, le asigna el nombre y el legajo pasado por parametro.
             lo guarda en el vector de estudiantes en el caso de que haya lugar (size <20).
@@ -154,17 +159,27 @@ void opciones_estudiante();
     imprimer por consola todas las opciones que tiene para ver la informarcion de un estudiante, nombre completo, legajo, etc.
 */
 
+void cursos();
+/*
+    imprime por consola las opciones de los cursos existentes
+*/
+
 int pedir_numero_correcto(int numero, int rango);
 /*
     se le pasa el numero ingresado por el usuario, y el rango de opciones que se tiene
     si el numero no esta dentro del rango, se le pide nuevamente el numero hasta que este dentro. luego retorna ese numero
 */
 
-int pedir_legajo(int legajo, curso lista_estudiantes);
+bool corroborar_estudiante_lista_totales(vector<shared_ptr<estudiante>> lista_estudiantes, int legajo);
 /*
-    se le pasa el numero de legajo ingresado por el usuario y el objeto curso
-    si el numero de legajo es negativo o ya esta en la lista de estudiantes, se le vuelve a pedir hasta que cumpla. 
-    luego retorna retorna el numero de legajo.
+    devuelve un bool que determina si un legajo se encuentra asignado a un estudiante. return true en caso de que este el legajo,
+    return false en el caso de que no se encuentre.
+*/
+
+shared_ptr<estudiante> devolver_estudiante(vector<shared_ptr<estudiante>> lista_estudiantes, int legajo);
+/*
+    retorna un puntero shared al objeto estudiante que tiene asignado como numero de legajo el que se le pasa por parametro.
+    caso de que no haya un estudiante con dicho legajo, se devuelve nullptr
 */
 
 void interfaz_curso(); /* funcion de interfaz con el usuario*/
