@@ -460,6 +460,10 @@ string complejo::toString() const
     return to_string(parte_real) + " + " + to_string(parte_imaginaria) + "i";
 }
 
+/*
+    comando para ejecutar: 
+        make ej3
+*/
 int main()
 {
     unique_ptr<Numero> num1 = make_unique<entero>(5);           // Entero

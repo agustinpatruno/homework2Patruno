@@ -485,6 +485,10 @@ void interfaz_curso()
     }
 }
 
+/*
+    comando para ejecutar: 
+        make ej2
+*/
 int main()
 {
     interfaz_curso();

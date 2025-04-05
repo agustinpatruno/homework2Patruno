@@ -365,6 +365,10 @@ void programa_verificacion()
     }
 }
 
+/*
+    comando para ejecutar:
+        make ej1
+*/
 int main()
 {
     // casos de inicializacion de objetos con los distintos constructores
