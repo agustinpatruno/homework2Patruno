@@ -52,7 +52,7 @@ void caja_de_ahorro::descuento()
 
                 return;
             }
-        throw logic_error("no hay suficiente dinero para aplicar el descuento");
+            throw logic_error("no hay suficiente dinero para aplicar el descuento");
         }
         catch(const std::exception& e)
         {
@@ -142,7 +142,6 @@ void cuentacorriente::retirar(double monto_retirar)
 
 void cuentacorriente::mostrarinfo()
 {
- 
     cout << "tipo de cuenta: cuenta corriente" << endl;
     cout << "balance de cuenta corriente: " << balance << endl;
     cout << " balanace de la cuenta de ahorro: " << caja_ahorro->obtenerbalance() << endl;
