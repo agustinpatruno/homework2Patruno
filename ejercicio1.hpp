@@ -16,11 +16,11 @@ class tiempo
 
         int comprobar_hora(int hora);
         /*
-            retorna la hora pasado por parametro si esta dentro del rango de la hora. caso contrario retorna 0.
+            retorna la hora pasado por parametro si esta dentro del rango de la hora. caso contrario retorna -1.
         */
         int comprobar_minutos_segundos(int numero);
         /*
-            retorna los minutos/segundos pasado por parametro si esta dentro de minutos/segundos. caso contrario retorna 0.
+            retorna los minutos/segundos pasado por parametro si esta dentro de minutos/segundos. caso contrario retorna -1.
         */
 
         bool comprobar_momento(string momento);

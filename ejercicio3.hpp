@@ -170,5 +170,4 @@ class complejo : public Numero
             retorna la parte real y la parte imaginaria del complejo en formato string
         */
 };
-
 #endif

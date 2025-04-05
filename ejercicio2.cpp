@@ -145,8 +145,8 @@ curso::curso(const curso& otro) {
 
     /*Justificación:
         eliji realizar un shallow copy debido a que es mas eficiente en tiempo, no consume espacio en memoria adicional, solo
-        duplica los punteros que apuntan a los datos y mayor simplicidad en el codigo. de este modo puede modificar los valores 
-        tambien sin necesitar memoria.
+        duplica los punteros que apuntan a los datos y permite una mayor simplicidad en el codigo. de este modo puede modificar 
+        los valores tambien sin necesitar memoria.
         este shallow copy se hace creando un constructor, donde toma por parametro el curso que se desea copiar, luego en el objeto
         nuevo (estudiantes) se lo iguala a "otro.estudiantes" para realizar una copia superficial, donde ".estudiantes" accede al 
         vector con los estudiantes del antiguo curso.
@@ -513,7 +513,7 @@ int main()
 
     curso_copia.imprimir_nombres();
 
-    cout << "-----------------desinscribo un estudiante del curso_copia" << endl;
+    cout << "-----------------desinscribo al estudiante con legajo 1234 del curso_copia" << endl;
 
     curso_copia.desinscribir_estudiante(1234);
 
@@ -524,6 +524,17 @@ int main()
     cout << "----------------imprimo los estudiantes del nuevo_curso" << endl;
     
     nuevo_curso.imprimir_nombres();
+
+    /*
+        en este caso, cuando desinscribo un estudiante del curso_copia, no se ve reflejado el cambio en el curso original por que
+        son 2 instancias independientes. Cuando hago el shallow, el contenedor si se copia pero no se duplican los elementos del vector,
+        se copian las referencias. Esto genera que al modificar los elementos apuntados por los shared_ptr, los cambios se ven en los 
+        2 vectores. Pero si modifico el vector, este cambio no se vera reflejado en ambos por que son 2 vectore independientes
+        Una forma de solucionar esto, es que el vector de estudiantes se pueda compartir entre instancias, 
+        usando un shared_ptr que apunta al dicho vector. Esto realiza una copia del puntero compartido. De esta forma al modificar
+        el curso_copia, tambien se modificara el curso original
+        vector.
+    */
     
     return 0;
 }

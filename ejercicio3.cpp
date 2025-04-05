@@ -32,7 +32,7 @@ unique_ptr<Numero> entero::sumar(const Numero& otro) const
         return make_unique<complejo>(numero + i->getValor_real(), i->getValor_imaginario());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -56,7 +56,7 @@ unique_ptr<Numero> entero::restar(const Numero& otro) const
         return make_unique<complejo>(numero - i->getValor_real(), i->getValor_imaginario());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -80,7 +80,7 @@ unique_ptr<Numero> entero::multiplicar(const Numero& otro) const
         return make_unique<complejo>(numero*i->getValor_real(), numero*i->getValor_imaginario());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -89,38 +89,59 @@ unique_ptr<Numero> entero::dividir(const Numero& otro) const
     const entero* e = dynamic_cast<const entero*>(&otro);
     if (e) 
     {
-        if (e->getValor() != 0)
-        {    
-            return make_unique<entero>(numero/e->numero); // Crea un smart pointer
+        try
+        {
+            if (e->getValor() != 0)
+            {    
+                return make_unique<entero>(numero/e->numero); // Crea un smart pointer
+            }
+            
+            throw logic_error("error, se intento dividir un numero entero por cero");
         }
-        
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
     const real* r = dynamic_cast<const real*>(&otro);
     if (r) 
     {
-        if (r->getValor() != 0)
+        try
         {
-            return make_unique<real>(numero/r->getValor()); // Convertir entero a real y sumar
+            if (r->getValor() != 0)
+            {
+                return make_unique<real>(numero/r->getValor()); // Convertir entero a real y sumar
+            }
+            throw logic_error("error, se intento dividir un numero entero por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
     const complejo* i = dynamic_cast<const complejo*>(&otro);
     if (i) 
     {
-        if (i->getValor_real() != 0 && i->getValor_imaginario() != 0)
+        try
         {
-            return make_unique<complejo>((numero*i->getValor_real()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()), - (i->getValor_imaginario()*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()));
+            if (i->getValor_real() != 0 && i->getValor_imaginario() != 0)
+            {
+                return make_unique<complejo>((numero*i->getValor_real()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()), - (i->getValor_imaginario()*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()));
+            }
+            throw logic_error("error, se intento dividir un numero entero por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -128,7 +149,7 @@ string entero::toString() const {
     return to_string(numero);
 }
 
-/// implementacion de los metodos de la clase real ///
+/////////////////////////// implementacion de los metodos de la clase real //////////////////////////////////
 
 real::real(double num)
 {
@@ -161,7 +182,7 @@ unique_ptr<Numero> real::sumar(const Numero& otro) const
         return make_unique<complejo>(numero + i->getValor_real(), i->getValor_imaginario());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -186,7 +207,7 @@ unique_ptr<Numero> real::restar(const Numero& otro) const
         return make_unique<complejo>(numero - i->getValor_real(), i->getValor_imaginario());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -211,7 +232,7 @@ unique_ptr<Numero> real::multiplicar(const Numero& otro) const
         return make_unique<complejo>(numero*i->getValor_real(), numero*i->getValor_imaginario());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -221,37 +242,58 @@ unique_ptr<Numero> real::dividir(const Numero& otro) const
     const real* r = dynamic_cast<const real*>(&otro);
     if (r) 
     {
-        if (r->getValor() != 0)
+        try
         {
-            return make_unique<real>(numero / r->getValor());
+            if (r->getValor() != 0)
+            {
+                return make_unique<real>(numero / r->getValor());
+            }
+            throw logic_error("error, se intento dividir un numero real por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
     const entero* e = dynamic_cast<const entero*>(&otro);
     if (e) 
     {
-        if (e->getValor() != 0)
+        try
         {
-            return make_unique<real>(numero / e->getValor());
+            if (e->getValor() != 0)
+            {
+                return make_unique<real>(numero / e->getValor());
+            }
+            throw logic_error("error, se intento dividir un numero real por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
     const complejo* i = dynamic_cast<const complejo*>(&otro);
     if (i) 
     {
-        if (i->getValor_real() != 0 && i->getValor_imaginario() != 0)
+        try
         {
-            return make_unique<complejo>((numero*i->getValor_real()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()), - (i->getValor_imaginario()*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()));
+            if (i->getValor_real() != 0 && i->getValor_imaginario() != 0)
+            {
+                return make_unique<complejo>((numero*i->getValor_real()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()), - (i->getValor_imaginario()*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()));
+            }
+            throw logic_error("error, se intento dividir un numero real por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -259,7 +301,7 @@ string real::toString() const {
     return to_string(numero);
 }
 
-/// implementacion de los metodos de la clase complejo ///
+/////////////////////////////////// implementacion de los metodos de la clase complejo ///////////////////////////////////
 
 complejo::complejo(double real, double imaginaria)
 {
@@ -298,7 +340,7 @@ unique_ptr<Numero> complejo::sumar(const Numero& otro) const
         return make_unique<complejo>(parte_real + e->getValor(), parte_imaginaria);
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -323,7 +365,7 @@ unique_ptr<Numero> complejo::restar(const Numero& otro) const
         return make_unique<complejo>(parte_real - e->getValor(), parte_imaginaria);
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -348,7 +390,7 @@ unique_ptr<Numero> complejo::multiplicar(const Numero& otro) const
         return make_unique<complejo>(parte_real * e->getValor(), parte_imaginaria*e->getValor());
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -358,37 +400,58 @@ unique_ptr<Numero> complejo::dividir(const Numero& otro) const
     const complejo* i = dynamic_cast<const complejo*>(&otro);
     if (i) 
     {   
-        if (i->getValor_real() != 0 && i->getValor_imaginario() != 0)
+        try
         {
-            return make_unique<complejo>((parte_real*i->getValor_real()+parte_imaginaria*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()),(parte_imaginaria*i->getValor_real()-parte_real*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()));
+            if (i->getValor_real() != 0 && i->getValor_imaginario() != 0)
+            {
+                return make_unique<complejo>((parte_real*i->getValor_real()+parte_imaginaria*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()),(parte_imaginaria*i->getValor_real()-parte_real*i->getValor_imaginario()) / (i->getValor_real()*i->getValor_real()+i->getValor_imaginario()*i->getValor_imaginario()));
+            }
+            throw logic_error("error, se intento dividir un numero complejo por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
     const real* r = dynamic_cast<const real*>(&otro);
     if (r) 
     {
-        if (r ->getValor() != 0)
+        try
         {
-            return make_unique<complejo>(parte_real / r->getValor(), parte_imaginaria / r->getValor());
+            if (r ->getValor() != 0)
+            {
+                return make_unique<complejo>(parte_real / r->getValor(), parte_imaginaria / r->getValor());
+            }
+            throw logic_error("error, se intento dividir un numero complejo por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
     const entero* e = dynamic_cast<const entero*>(&otro);
     if (e) 
     {
-        if (e->getValor() != 0)
-        {  
-            return make_unique<complejo>(parte_real / e->getValor(), parte_imaginaria);
+        try
+        {
+            if (e->getValor() != 0)
+            {  
+                return make_unique<complejo>(parte_real / e->getValor(), parte_imaginaria);
+            }
+            throw logic_error("error, se intento dividir un numero complejo por cero");
         }
-        throw invalid_argument("division por cero");
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
         return nullptr;
     }
 
-    if (!e && !r && !i) throw invalid_argument("Número de tipo desconocido");
+    if (!e && !r && !i) throw logic_error("Número de tipo desconocido");
     return nullptr;
 }
 
@@ -406,9 +469,9 @@ int main()
     unique_ptr<Numero> num3 = make_unique<complejo>(2.0, 3.0);  // Complejo
     unique_ptr<Numero> num33 = make_unique<complejo>(5.0, 8.0); //complejo
 
+    // Suma
+
     // Suma a enteros
-    
-    //suma a entero
 
     auto suma1 = num1->sumar(*num12);  // Suma entero + entero
     auto suma2 = num1->sumar(*num33); // suma entero + complejo
@@ -426,21 +489,20 @@ int main()
     auto suma8 = num3->sumar(*num2);  // Suma complejo + real
     auto suma9 = num3->sumar(*num33); // suma complejo + complejo
 
-   
     // Imprimir resultados
-    cout << " ----sumas : " << endl;
+    cout << " ----------------------sumas : " << endl;
     cout << " --entero : " << endl;
-    cout << " suma entero + entero: " << suma1->toString() << endl;
-    cout << " suma entero + real: " << suma2->toString() << endl;
-    cout << " suma entero + complejo: " << suma3->toString() << endl;
+    cout << " entero + entero: " << suma1->toString() << endl;
+    cout << " entero + real: " << suma2->toString() << endl;
+    cout << " entero + complejo: " << suma3->toString() << endl;
     cout << " --real : " << endl;
-    cout << " suma real + entero: " << suma4->toString() << endl;
-    cout << " suma real + real: " << suma5->toString() << endl;
-    cout << " suma real + complejo: " << suma6->toString() << endl;
+    cout << " real + entero: " << suma4->toString() << endl;
+    cout << " real + real: " << suma5->toString() << endl;
+    cout << " real + complejo: " << suma6->toString() << endl;
     cout << " --complejo : " << endl;
-    cout << " suma complejo + entero: " << suma7->toString() << endl;
-    cout << " suma complejo + real: " << suma8->toString() << endl;
-    cout << " suma complejo + complejo: " << suma9->toString() << endl;
+    cout << " complejo + entero: " << suma7->toString() << endl;
+    cout << " complejo + real: " << suma8->toString() << endl;
+    cout << " complejo + complejo: " << suma9->toString() << endl;
 
     // Resta
     
@@ -464,20 +526,19 @@ int main()
 
    
     // Imprimir resultados
-    cout << " ----restas : " << endl;
+    cout << " --------------------restas : " << endl;
     cout << " --entero : " << endl;
-    cout << " resta entero - entero: " << resta1->toString() << endl;
-    cout << " resta entero - real: " << resta2->toString() << endl;
-    cout << " resta entero - complejo: " << resta3->toString() << endl;
+    cout << " entero - entero: " << resta1->toString() << endl;
+    cout << " entero - real: " << resta2->toString() << endl;
+    cout << " entero - complejo: " << resta3->toString() << endl;
     cout << " --real : " << endl;
-    cout << " resta real - entero: " << resta4->toString() << endl;
-    cout << " resta real - real: " << resta5->toString() << endl;
-    cout << " resta real - complejo: " << resta6->toString() << endl;
+    cout << " real - entero: " << resta4->toString() << endl;
+    cout << " real - real: " << resta5->toString() << endl;
+    cout << " real - complejo: " << resta6->toString() << endl;
     cout << " --complejo : " << endl;
-    cout << " resta complejo - entero: " << resta7->toString() << endl;
-    cout << " resta complejo - real: " << resta8->toString() << endl;
-    cout << " resta complejo - complejo: " << resta9->toString() << endl;
-
+    cout << " complejo - entero: " << resta7->toString() << endl;
+    cout << " complejo - real: " << resta8->toString() << endl;
+    cout << " complejo - complejo: " << resta9->toString() << endl;
 
     // Multiplicación
 
@@ -502,19 +563,19 @@ int main()
    
     // Imprimir resultados
 
-    cout << " ----multiplicacion : " << endl;
+    cout << " -------------------multiplicacion : " << endl;
     cout << " --entero : " << endl;
-    cout << " multiplicar entero * entero: " << mul1->toString() << endl;
-    cout << " multiplicar entero * real: " << mul2->toString() << endl;
-    cout << " multiplicar entero * complejo: " << mul3->toString() << endl;
+    cout << " entero * entero: " << mul1->toString() << endl;
+    cout << " entero * real: " << mul2->toString() << endl;
+    cout << " entero * complejo: " << mul3->toString() << endl;
     cout << " --real : " << endl;
-    cout << " multiplicar real * entero: " << mul4->toString() << endl;
-    cout << " multiplicar real * real: " << mul5->toString() << endl;
-    cout << " multiplicar real * complejo: " << mul6->toString() << endl;
+    cout << " real * entero: " << mul4->toString() << endl;
+    cout << " real * real: " << mul5->toString() << endl;
+    cout << " real * complejo: " << mul6->toString() << endl;
     cout << " --complejo : " << endl;
-    cout << " multiplicar complejo * entero: " << mul7->toString() << endl;
-    cout << " multiplicar complejo * real: " << mul8->toString() << endl;
-    cout << " multiplicar complejo * complejo: " << mul9->toString() << endl;
+    cout << " complejo * entero: " << mul7->toString() << endl;
+    cout << " complejo * real: " << mul8->toString() << endl;
+    cout << " complejo * complejo: " << mul9->toString() << endl;
 
     // dividir
 
@@ -538,19 +599,27 @@ int main()
 
     // Imprimir resultados
 
-    cout << " ---- dividir : " << endl;
+    cout << " ------------------ dividir : " << endl;
     cout << " --entero : " << endl;
-    cout << " dividir entero / entero: " << div1->toString() << endl;
-    cout << " dividir entero / real: " << div2->toString() << endl;
-    cout << " dividir entero / complejo: " << div3->toString() << endl;
+    cout << " entero / entero: " << div1->toString() << endl;
+    cout << " entero / real: " << div2->toString() << endl;
+    cout << " entero / complejo: " << div3->toString() << endl;
     cout << " --real : " << endl;
-    cout << " dividir real / entero: " << div4->toString() << endl;
-    cout << " dividir real / real: " << div5->toString() << endl;
-    cout << " dividir real / complejo: " << div6->toString() << endl;
+    cout << " real / entero: " << div4->toString() << endl;
+    cout << " real / real: " << div5->toString() << endl;
+    cout << " real / complejo: " << div6->toString() << endl;
     cout << " --complejo : " << endl;
-    cout << " dividir complejo / entero: " << div7->toString() << endl;
-    cout << " dividir complejo / real: " << div8->toString() << endl;
-    cout << " dividir complejo / complejo: " << div9->toString() << endl;
+    cout << " complejo / entero: " << div7->toString() << endl;
+    cout << " complejo / real: " << div8->toString() << endl;
+    cout << " complejo / complejo: " << div9->toString() << endl;
+
+    // casos borde de division por cero //
+
+    unique_ptr<Numero> num10 = make_unique<entero>(0); 
+
+    num3->dividir(*num10); // divido un complejo por cero
+    num2->dividir(*num10);  // divido un real por cero
+    num1->dividir(*num10);  // divido un entero por cero
 
     return 0;
 }

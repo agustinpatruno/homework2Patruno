@@ -18,11 +18,11 @@ ej2: ejercicio2.cpp ejercicio2.hpp
 	./$(TARGET_EJ2)
 
 ej3: ejercicio3.cpp ejercicio3.hpp
-	$(CXX) $(CXXFLAGS) -o $(TARGET_EJ3) ej3.cpp
+	$(CXX) $(CXXFLAGS) -o $(TARGET_EJ3) ejercicio3.cpp
 	./$(TARGET_EJ3)
 
-ej4: ejercicio4.cpp
-	$(CXX) $(CXXFLAGS) -o $(TARGET_EJ4) ej4.cpp
+ej4: ejercicio4.cpp ejercicio4.hpp
+	$(CXX) $(CXXFLAGS) -o $(TARGET_EJ4) ejercicio4.cpp
 	./$(TARGET_EJ4)
 
 # Limpieza
