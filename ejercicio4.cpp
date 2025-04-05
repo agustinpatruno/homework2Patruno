@@ -131,6 +131,10 @@ void cuentacorriente::mostrarinfo()
     cout << "------------------" << endl;
 }
 
+/*
+    comando para ejecutar:
+        make ej4
+*/
 int main()
 {
 
