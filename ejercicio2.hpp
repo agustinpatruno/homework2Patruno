@@ -144,8 +144,6 @@ class curso
             imprime por consola los nombres de los estudiantes pertenecientes al curso en orden alfabetico
         */
 
-        void imprimir_info(int legajo, bool nombre, bool legaj, bool promedio);
-
 };
 #endif // EJERCICIO2_HPP
 
@@ -182,4 +180,14 @@ shared_ptr<estudiante> devolver_estudiante(vector<shared_ptr<estudiante>> lista_
     caso de que no haya un estudiante con dicho legajo, se devuelve nullptr
 */
 
-void interfaz_curso(); /* funcion de interfaz con el usuario*/
+int return_curso();
+/*
+    retorna el numero del curso que elijio el usuario
+*/
+
+void interfaz_curso(); 
+/*
+ funcion de interfaz con el usuario, donde le muestra todas las opciones en las que puede crear un estudiante, inscribir/desinscribir
+ un estudiante de un curso. ver informacion de un estudiante. ver si un curso esta lleno. imprimir la lista de estudiantes de un curso
+ o corroborar que un estudiante este inscripto en un curso.
+*/

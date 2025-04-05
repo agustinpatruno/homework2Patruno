@@ -1,131 +1,226 @@
 #include "ejercicio1.hpp"
 
-class tiempo
+
+int tiempo::comprobar_hora(int hora)
 {
-    private:
+    return hora <= 24 ? hora : -1;
+}
+int tiempo::comprobar_minutos_segundos(int numero)
+{
+    return numero <= 60 ? numero : -1;
+}
+bool tiempo::comprobar_momento(string momento)
+{
+    return momento == "a.m" || momento == "p.m" ? true : false;
+}
 
-        int Hora;
-        int Minutos;
-        int Segundos;
-        string Momento;
+//constructores del objeto//
 
-        int comprobar_hora(int hora)
+tiempo::tiempo()
+{
+    Hora = 0;
+    Minutos = 0;
+    Segundos = 0;
+    Momento = "a.m";
+}
+
+tiempo::tiempo(int horas)
+{
+    try
+    {
+        if (comprobar_hora(horas) != -1)
         {
-            return hora <= 24 ? hora : 0;
-        }
-        int comprobar_minutos_segundos(int numero)
-        {
-            return numero <= 60 ? numero : 0;
-        }
-        bool comprobar_momento(string momento)
-        {
-            return momento == "a.m" || momento == "p.m" ? true : false;
-        }
-
-    public:
-
-        //constructores del objeto//
-
-        tiempo()
-        {
-            Hora = 0;
+            Hora = horas;
             Minutos = 0;
             Segundos = 0;
             Momento = "a.m";
         }
-        tiempo(int horas)
+        throw logic_error("error, hora ingresada no valida");
+        
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+tiempo::tiempo(int horas, int minutos)
+{
+    try
+    {
+        if (comprobar_hora(horas) != -1 && comprobar_minutos_segundos(minutos) != -1)
         {
-            Hora = comprobar_hora(horas);
-            Minutos = 0;
+            Hora = horas;
+            Minutos = minutos;
             Segundos = 0;
             Momento = "a.m";
         }
-        tiempo(int horas, int minutos)
+        else
         {
-            Hora = comprobar_hora(horas);
-            Minutos = comprobar_minutos_segundos(minutos);
-            Segundos = 0;
+            throw logic_error("error, verificar que la hora y los minutos esten en los rangos correctos");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+tiempo::tiempo(int horas, int minutos, int segundos)
+{
+    try
+    {
+        if (comprobar_hora(horas) != -1 && comprobar_minutos_segundos(minutos) != -1 && comprobar_minutos_segundos(segundos) != -1)
+        {
+            Hora = horas;
+            Minutos = minutos;
+            Segundos = segundos;
             Momento = "a.m";
         }
-        tiempo(int horas, int minutos, int segundos)
+        else
         {
-            Hora = comprobar_hora(horas);
-            Minutos = comprobar_minutos_segundos(minutos);
-            Segundos = comprobar_minutos_segundos(segundos);
-            Momento = "a.m";
+            throw logic_error("error, verificar que la hora, los minutos y los segundos esten en los rangos correctos");
         }
-        tiempo(int horas, int minutos, int segundos, string momento)
-        {
-            Hora = comprobar_hora(horas);
-            Minutos = comprobar_minutos_segundos(minutos);
-            Segundos = comprobar_minutos_segundos(segundos);
-            Momento = comprobar_momento(momento) ? momento : "a.m";
-        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
 
-        //metodos para leer y cambiar los atributos definidos en private//
+tiempo::tiempo(int horas, int minutos, int segundos, string momento)
+{
+    try
+    {
+        if (comprobar_hora(horas) != -1 && comprobar_minutos_segundos(minutos) != -1 && comprobar_minutos_segundos(segundos) != -1 && comprobar_momento(momento))
+        {
+            Hora = horas;
+            Minutos = minutos;
+            Segundos = segundos;
+            Momento = momento;
+        }
+        else
+        {
+            throw logic_error("error, verificar que la hora, los minutos, los segundos y el momento esten en los rangos correctos");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
 
-        void leer_hora()
-        {
-            cout << setw(10) <<" hora: " << Hora << endl;
-            return;
-        }
-        void cambiar_hora(int nueva_hora)
-        {
-            int hora_ant = Hora;
-            Hora = comprobar_hora(nueva_hora) == 0 ? hora_ant : nueva_hora;
-            return;
-        }
+//metodos para leer y cambiar los atributos definidos en private//
 
-        void leer_minutos()
-        {
-            cout << setw(10) <<" minutos: " << Minutos << endl;
-            return;
-        }
-        void cambiar_minutos(int nuevos_minutos)
-        {
-            int min_ant = Minutos;
-            Minutos = comprobar_minutos_segundos(nuevos_minutos) == 0 ? min_ant : nuevos_minutos;
-            return;
-        }
+void tiempo::leer_hora()
+{
+    cout << setw(10) <<" hora: " << Hora << endl;
+}
 
-        void leer_segundos()
+void tiempo::cambiar_hora(int nueva_hora)
+{
+    try
+    {
+        if (comprobar_hora(nueva_hora)!=-1)
         {
-            cout << setw(10) <<" segundos: " << Segundos << endl;
-            return;
+            Hora = nueva_hora;
         }
-        void cambiar_segundos(int nuevos_segundos)
-        {   
-            int seg_ant = Segundos;
-            Segundos = comprobar_minutos_segundos(nuevos_segundos) == 0 ? seg_ant : nuevos_segundos;
-            return;
-        }
-
-        void leer_momento()
+        else
         {
-            cout << setw(10) <<"el tiempo esta en intervalo: " << Momento << endl;
-            return;
+            throw logic_error("error, hora no valida, verifique que este dentro del rango");
         }
-        void cambiar_momento(string nuevo_momento)
-        {   
-            comprobar_momento(nuevo_momento) ? Momento = nuevo_momento : nullptr;
-            return;
-        }
+        
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
 
-        void leer_todo()
+void tiempo::leer_minutos()
+{
+    cout << setw(10) <<" minutos: " << Minutos << endl;
+}
+
+void tiempo::cambiar_minutos(int nuevos_minutos)
+{
+    try
+    {
+        if (comprobar_minutos_segundos(nuevos_minutos)!=-1)
         {
-            cout << setw(10) << "hora: " << Hora << " minutos: " << Minutos << " segundos: " << Segundos << " momento: " << Momento << endl;
-            return;
+            Minutos = nuevos_minutos;
         }
-
-        //metodo para mostrar el tiempo en formato de 0 a 24//
-
-        void mostrar_tiempo_formato_24()
+        else
         {
-            int hora_convertida = Momento == "p.m" ? Hora + 12 : Hora ;
-            cout << setw(10) <<"hora: " << hora_convertida << " minutos: " << Minutos << " segundos: " << Segundos << endl ;
-            return;
+            throw logic_error("error, minutos no valido, verifique que este dentro del rango");
         }
-};
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+void tiempo::leer_segundos()
+{
+    cout << setw(10) <<" segundos: " << Segundos << endl;
+}
+
+void tiempo::cambiar_segundos(int nuevos_segundos)
+{   
+    try
+    {
+        if (comprobar_minutos_segundos(nuevos_segundos)!=-1)
+        {
+            Segundos = nuevos_segundos;
+        }
+        else
+        {
+            throw logic_error("error, segundos no valido, verifique que este dentro del rango");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+void tiempo::leer_momento()
+{
+    cout << setw(10) <<"el tiempo esta en formato: " << Momento << endl;
+}
+
+void tiempo::cambiar_momento(string nuevo_momento)
+{   
+    try
+    {
+        if (comprobar_momento(nuevo_momento))
+        {
+            Momento = nuevo_momento;
+        }
+        else
+        {
+            throw logic_error("error, momento no valido, verifique que este dentro de las 2 opciones");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+void tiempo::leer_todo()
+{
+    cout << setw(10) << "hora: " << Hora << " minutos: " << Minutos << " segundos: " << Segundos << " momento: " << Momento << endl;
+}
+
+//metodo para mostrar el tiempo en formato de 0 a 24//
+
+void tiempo::mostrar_tiempo_formato_24()
+{
+    int hora_convertida = Momento == "p.m" ? Hora + 12 : Hora ;
+    cout << setw(10) <<"hora: " << hora_convertida << " minutos: " << Minutos << " segundos: " << Segundos << endl ;
+}
 
 void opciones()
 {
@@ -159,143 +254,6 @@ void programa_verificacion()
 
         string nuevo_momento;
 
-        /*switch (opcion)
-        {
-            case -1:
-            {
-                return;
-            }
-            case 1:
-            {
-                cout << setw(10) << "que quieres modificar:" << endl;
-                opciones();
-                cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
-
-                cin >> subopcion ;
-                
-                switch (subopcion)
-                {
-                    case -1:
-                    {   
-                        return;
-                    }
-                    case 1:
-                    { 
-                        cout << setw(10) << "ingrese la nueva hora :" << endl;
-                        cin >> nuevo_tiempo;
-        
-                        while (nuevo_tiempo > 12 || nuevo_tiempo < 0)
-                        {
-                            cout << setw(10) << "error, ingrese una hora valida :" << endl;
-                            cin >> nuevo_tiempo ;
-                        }
-
-                        tiempo_actual.cambiar_hora(nuevo_tiempo);
-                        break;
-                    }
-                    case 2:
-                    {
-                        cout << setw(10) << "ingrese los nuevos minutos/segundos :" << endl;
-                        cin >> nuevo_tiempo;
-            
-                        while (nuevo_tiempo > 60 || nuevo_tiempo < 0)
-                        {
-                            cout << setw(10) << "error, ingrese unos minutos/segundos validos :" << endl;
-                            cin >> nuevo_tiempo ;
-                        }
-            
-                        tiempo_actual.cambiar_minutos(nuevo_tiempo);
-                        break;
-                    }
-                    case 3:
-                    {
-                        cout << setw(10) << "ingrese los nuevos minutos/segundos :" << endl;
-                        cin >> nuevo_tiempo;
-            
-                        while (nuevo_tiempo > 60 || nuevo_tiempo < 0)
-                        {
-                            cout << setw(10) << "error, ingrese unos minutos/segundos validos :" << endl;
-                            cin >> nuevo_tiempo ;
-                        }
-                        tiempo_actual.cambiar_segundos(nuevo_tiempo);
-                        break;
-                    }
-                    case 4:
-                    {
-                        cout << setw(10) << "ingrese a.m o p.m :" << endl;
-                        cin >> nuevo_momento;
-
-                        while (nuevo_momento != "p.m" && nuevo_momento != "a.m")
-                        {
-                            cout << setw(10) << "error, ingrese un momento valido :" << endl;
-                            cin >> nuevo_momento ;
-                        }
-                        
-                        tiempo_actual.cambiar_momento(nuevo_momento);
-                        break;
-                    }
-                    default:
-                    {
-                        cout << "error, opcion no valida, intentelo nuevamente" << endl;
-                        break;
-                    }
-                }
-            }
-            case 2:
-
-                cout << setw(10) << "que quieres leer:" << endl;
-                opciones();
-                cout << setfill('-') << setw(10) << "5) todo en conjunto" << endl;
-                cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
-
-                cin >> subopcion ;
-
-                switch (subopcion)
-                {
-                    case -1:
-                    {
-                        return;
-                    }    
-                    case 1:
-                    {
-                        tiempo_actual.leer_hora();
-                        break;
-                    }
-                    case 2:
-                    {
-                        tiempo_actual.leer_minutos();
-                        break;
-                    }
-                    case 3:
-                    {
-                        tiempo_actual.leer_segundos();
-                        break;
-                    }
-                    case 4:
-                    {
-                        tiempo_actual.leer_momento();
-                        break;
-                    }
-                    default:
-                    {
-                        cout << "error, ingrese una opcion valida:" << endl;
-
-                        break;
-                    }
-                }
-    
-            case 3:
-            {
-                tiempo_actual.mostrar_tiempo_formato_24();
-                break;
-            }
-            default:
-            {
-                cout << "error, ingrese una opcion valida " << endl;
-                break;
-            }
-        }*/
-
         if (opcion == -1)
         {
             return;
@@ -303,18 +261,9 @@ void programa_verificacion()
         else if (opcion == 1)
         {
             cout << setw(10) << "que quieres modificar:" << endl;
-            cout << setfill('-') << setw(10) << "1) la hora " << endl;
-            cout << setfill('-') << setw(10) << "2) los minutos" << endl;
-            cout << setfill('-') << setw(10) << "3) los segundos" << endl;
-            cout << setfill('-') << setw(10) << "4) el momento" << endl;
-            cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
+            opciones();
 
             cin >> subopcion ;
-
-            if (subopcion == -1)
-            {
-                return;
-            }
 
             while (subopcion > 4 || subopcion < 0)
             {
@@ -324,7 +273,6 @@ void programa_verificacion()
 
             if (subopcion == 1)
             {
-                
                 cout << setw(10) << "ingrese la nueva hora :" << endl;
                 cin >> nuevo_tiempo;
 
@@ -335,7 +283,6 @@ void programa_verificacion()
                 }
                 
                 tiempo_actual.cambiar_hora(nuevo_tiempo);
-
             }
             else if (subopcion == 2 || subopcion == 3)
             {
@@ -356,7 +303,6 @@ void programa_verificacion()
                 {
                     tiempo_actual.cambiar_segundos(nuevo_tiempo);
                 }
-    
             }
             else if (subopcion == 4)
             {
@@ -371,29 +317,20 @@ void programa_verificacion()
                 }
                 
                 tiempo_actual.cambiar_momento(nuevo_momento);
-
             }
         }
         else if (opcion == 2)
         {
             cout << setw(10) << "que quieres leer:" << endl;
-            cout << setfill('-') << setw(10) << "1) la hora " << endl;
-            cout << setfill('-') << setw(10) << "2) los minutos" << endl;
-            cout << setfill('-') << setw(10) << "3) los segundos" << endl;
-            cout << setfill('-') << setw(10) << "4) el momento" << endl;
+            opciones();
             cout << setfill('-') << setw(10) << "5) todo en conjunto" << endl;
             cout << "ingrese el numero de la opcion elegida(-1 para terminar el programa): " << endl;
             cin >> subopcion ;
 
-            if (subopcion == -1)
-            {
-                return;
-            }
-
             while (subopcion > 5 || subopcion < 0)
             {
                 cout << setw(10) << "error, ingrese un numero dentro de las opciones :" << endl;
-                cin >> subopcion ;
+                cin >> subopcion;
             }
 
             if (subopcion == 1)
@@ -425,7 +362,6 @@ void programa_verificacion()
         {
             cout << "error, numero ingresado no valido" << endl ;
         }
-
     }
 }
 
@@ -447,16 +383,16 @@ int main()
 
     // casos borde con cada constructor
 
-    tiempo tiempo1(13); // imprime cero en la hora ya que las horas son mayor a 12
+    tiempo tiempo5(13); //  arroja un throw y lo agarra con catch. muestra por consola que se debe verificar el rango de la hora
     tiempo1.leer_todo();
 
-    tiempo tiempo2(10,76); // imprime cero en los minutos ya que son mayor a 60
+    tiempo tiempo6(10,76); // arroja un throw y lo agarra con catch. muestra por consola que se debe verificar el rango de la hora y los minutos
     tiempo2.leer_todo();
 
-    tiempo tiempo3(10,22,63); // imprime cero en los segundos ya que son mayor a 60
+    tiempo tiempo7(10,22,63); // arroja un throw y lo agarra con catch. muestra por consola que se debe verificar el rango de la hora, los minutos y los segundos
     tiempo3.leer_todo();
 
-    tiempo tiempo4(10,22,53,"p.s"); // imprime "a.m" en el momento ya que es distinto de "p.m" y "a.m".
+    tiempo tiempo8(10,22,53,"p.s"); // arroja un throw y lo agarra con catch. muestra por consola que se debe verificar el rango de la hora, los minutos, los segundos y el momento
     tiempo4.leer_todo();
 
     programa_verificacion();
