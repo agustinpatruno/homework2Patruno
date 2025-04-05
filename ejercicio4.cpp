@@ -15,9 +15,28 @@ void cuenta_de_banco::depositar(double monto_depositar)
 
 // constructor de la cuenta de banco //
 
-cuenta_de_banco::cuenta_de_banco(double balance, string nombretitular) : balance(balance), titularcuenta(nombretitular){}
+cuenta_de_banco::cuenta_de_banco(double balance, string nombretitular) 
+{
+    try
+    {
+        if (balance > 0)
+        {
+            balance = balance;
 
-// implementacion de los metodos de caja_de_ahorro //
+            titularcuenta = nombretitular;
+        }
+        else
+        {
+            throw logic_error("error, ingrese un balance positivo");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+////////////////////////////////// implementacion de los metodos de caja_de_ahorro //////////////////////////////////////
 
 void caja_de_ahorro::descuento()
 {
@@ -137,7 +156,6 @@ void cuentacorriente::mostrarinfo()
 */
 int main()
 {
-
     caja_de_ahorro miCajaDeAhorro(1000.0, "Juan Pérez");
 
     cuentacorriente miCuentaCorriente(2000.0, 500.0, "María López");
@@ -147,11 +165,17 @@ int main()
     cout << "------------operaciones de la caja de ahorro ---------------" << endl;
 
     miCajaDeAhorro.mostrarinfo();
+
     miCajaDeAhorro.retirar(200.0);
+
     miCajaDeAhorro.mostrarinfo();
+
     miCajaDeAhorro.depositar(150.43);
+
     miCajaDeAhorro.mostrarinfo();
+
     cout <<" - balance de la cuenta de ahorro: "<< miCajaDeAhorro.obtenerbalance() << endl;
+
     miCajaDeAhorro.retirar(1500.54);
 
     // operaciones en la cuenta corriente
@@ -159,10 +183,23 @@ int main()
     cout << "------------operaciones de la cuenta corriente --------------" << endl;
 
     miCuentaCorriente.retirar(750.65);
+
     miCuentaCorriente.mostrarinfo();
+
     miCuentaCorriente.depositar(120.22);
+
     miCuentaCorriente.mostrarinfo();
+
     cout << " balance de la cuenta corriente: " << miCuentaCorriente.obtenerbalance() << endl;
+
     miCuentaCorriente.retirar(2300.43);
+
     miCuentaCorriente.retirar(-230);
+
+    // casos limite de creacion de cuentas con balance negativo
+
+    caja_de_ahorro miCajaDeAhorro1(-455, "Juan Rodriguez");
+
+    cuentacorriente miCuentaCorriente1(-2000.0, 500.0, "María Perez");
+
 }
