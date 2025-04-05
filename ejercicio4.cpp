@@ -23,15 +23,22 @@ void caja_de_ahorro::descuento()
 {
     if (cant_veces_info > 2)
     {
-        if (obtenerbalance() >= 20)
+        try
         {
-            cout << "se descontara 20$ por solicitar ver la informacion " << endl;
+            if (obtenerbalance() >= 20)
+            {
+                cout << "se descontara 20$ por solicitar ver la informacion " << endl;
 
-            balance -= 20;
+                balance -= 20;
 
-            return;
+                return;
+            }
+        throw logic_error("no hay suficiente dinero para aplicar el descuento");
         }
-        cout << "no hay suficiente dinero para aplicar el descuento" << endl;
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 }
 
@@ -43,24 +50,27 @@ caja_de_ahorro::caja_de_ahorro(double balance, string nombretitular) : cuenta_de
 
 void caja_de_ahorro::retirar(double monto_retirar)
 {
-    if (monto_retirar < 0)
-    { 
-        throw invalid_argument("error, no se puede retirar un monto negativo");
-        return;
-    }
-    if (monto_retirar > obtenerbalance())
+    try
     {
-        cout << "error, no se puede retirar un monto mayor al que hay en la cuenta de ahorro." << endl;
-        return;
+        if (monto_retirar < 0)
+        { 
+            throw logic_error("error, no se puede retirar un monto negativo");
+        }
+        if (monto_retirar > obtenerbalance())
+        {
+            throw logic_error("error, no se puede retirar un monto mayor al que hay en la cuenta de ahorro.");
+        }
+    
+        balance -= monto_retirar;
     }
-
-    balance -= monto_retirar;
-
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 void caja_de_ahorro::mostrarinfo()
 {
-    
     cout << "tipo de cuenta: cuenta de ahorro" << endl;
     cout << "balance: " << balance << endl;
     cout << "nombre del titular: " << titularcuenta << endl;
@@ -71,7 +81,7 @@ void caja_de_ahorro::mostrarinfo()
     descuento();
 }
 
-////// implementacion metodos de la clase cuentacorriente //////
+//////////////////////////// implementacion metodos de la clase cuentacorriente ///////////////////////////////////
 
 // constructor de la cuenta corriente // 
 
@@ -84,25 +94,30 @@ cuentacorriente::cuentacorriente(double balance_cuenta_corriente, double balance
 
 void cuentacorriente::retirar(double monto_retirar)
 {
-    if (monto_retirar < 0)
+    try
     {
-        throw invalid_argument("arror, no se puede retirar un monto negativo");
-        return;
-    }
-    else if (monto_retirar <= obtenerbalance())
-    {
-        balance -= monto_retirar;
-    }
-    else
-    {
-        double excedente = monto_retirar - obtenerbalance();
-
-        balance = 0;
-
-        cout << " se intentara retirar: " << excedente << " de la caja de ahorro" << endl;
-
-        caja_ahorro->retirar(excedente);
+        if (monto_retirar < 0)
+        {
+            throw logic_error("error, no se puede retirar un monto negativo");
+        }
+        else if (monto_retirar <= obtenerbalance())
+        {
+            balance -= monto_retirar;
+        }
+        else
+        {
+            double excedente = monto_retirar - obtenerbalance();
     
+            balance = 0;
+    
+            cout << " se intentara retirar: " << excedente << " de la caja de ahorro" << endl;
+    
+            caja_ahorro->retirar(excedente);
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
 }
 
@@ -110,7 +125,8 @@ void cuentacorriente::mostrarinfo()
 {
  
     cout << "tipo de cuenta: cuenta corriente" << endl;
-    cout << "balance: " << balance << endl;
+    cout << "balance de cuenta corriente: " << balance << endl;
+    cout << " balanace de la cuenta de ahorro: " << caja_ahorro->obtenerbalance() << endl;
     cout << "nombre del titular: " << titularcuenta << endl;
     cout << "------------------" << endl;
 }

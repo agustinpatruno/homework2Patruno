@@ -16,14 +16,30 @@ class cuenta_de_banco
     public:
         
         cuenta_de_banco(double balance, string nombretitular);
+        /*
+            constructor que incializa el objeto de la cuenta de banco con el balance y el nombre del titular de
+            la cuenta.
+        */
         
         double obtenerbalance() const;
+        /*
+            retorna el balance de la cuenta del titular. no modifica nada.
+        */
 
         void depositar(double monto_depositar);
+        /*
+            deposita el monto ingresado por parametro en la cuenta el titular
+        */
 
         void virtual retirar(double monto_retirar) = 0;
+        /*
+            retira el monto ingresado por parametro del balance del titular de la cuenta
+        */
 
         void virtual mostrarinfo() = 0;
+        /*
+            muestra por consola la informacion de la cuenta. (tipo de cuenta, balance y nombre del titular)
+        */
 };
 
 class caja_de_ahorro : public cuenta_de_banco
@@ -35,18 +51,34 @@ class caja_de_ahorro : public cuenta_de_banco
         // funcion que realiza el descuento
 
         void descuento();
+        /*
+            en caso de que el usuario haya visto ina informacion de la cuenta mas de 2 veces, se le hace un descuento a la cuenta de
+            20$. caso de que no tenga dicho monto, se arroja un throw y se lo captura con catch
+        */
 
     public:
 
         // constructor de la caja de ahorro //
 
         caja_de_ahorro(double balance, string nombretitular);
+        /*
+            constructor de la caja de ahorro, donde se incializa con el balance y el nombre del titular de la cuenta.
+            en caso de que el monto sea negativo o que sea mayor al disponible en la caja, se arroja un throw y se lo captura con catch.
+            sino se retira normalmente
+        */
 
         // definicion de las funciones 
 
         void virtual retirar(double monto_retirar) override;
+        /*
+            retira el monto pasado por parametro de la caja de ahorro. caso de que sea mayor al disponible, se arroja un throw y
+            se captura con catch
+        */
 
         void virtual mostrarinfo() override;
+        /*
+            muesta la informacion de la cuenta. con el tipo de cuenta = caja de ahorro
+        */
 };
 
 class cuentacorriente : public cuenta_de_banco
@@ -62,19 +94,31 @@ class cuentacorriente : public cuenta_de_banco
         // constructor de la cuenta corriente // 
 
         cuentacorriente(double balance_cuenta_corriente, double balance_cuenta_ahorro, string nombretitular);
+        /*
+            constructor de la cuenta corriente, donde se incializa con el balance de la cuenta corriente, el balance de la caja e ahorro 
+            y el nombre del titular. se crea tambien un objeto de la caja de ahorro. 
+        */
         
         // definicion de las funciones
 
         void virtual retirar(double monto_retirar)override;
+        /*
+            retira el monto que se le pase por parametro. en caso de que sea negativo, se arroja un error. en caso de que sea mayor al 
+            disponible en el balance de le cuenta corriente, se va a retirar de la caja de ahorro. En caso de que el excedente sea mayor
+            al disponible en la caja de ahorro, se arroja un throw y se captura con catch.
+        */
 
         void virtual mostrarinfo()override;
+        /*
+            muesta la informacion de la cuenta. con el tipo de cuenta = caja de banco, balance de la cuenta corriente, el balance
+            de la caja de ahorro y el nombre del titular
+        */
 };
 
 #endif
 
 /*
 a)
-
 clase cuenta_de_banco:
 
     private:
